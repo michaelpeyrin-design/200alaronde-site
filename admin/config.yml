@@ -1,0 +1,49 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+logo_url: "/assets/img/logo-200alaronde.png"
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    label_singular: "Article"
+    folder: "content/articles"
+    create: true
+    format: "json"
+    extension: "json"
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{date}} - {{title}}"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Adresse / slug", name: "slug", widget: "string", hint: "Exemple : dodecaudax-septembre-2026"}
+      - {label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
+      - label: "Catégorie"
+        name: "category"
+        widget: "select"
+        options: ["Dodecaudax", "BRM", "Longue distance", "Artisan cadreur", "Lecture", "Association"]
+      - {label: "Résumé", name: "summary", widget: "text", required: false}
+      - {label: "Image principale", name: "featured_image", widget: "image", required: false}
+      - {label: "Publié", name: "published", widget: "boolean", default: true}
+      - {label: "Contenu", name: "body", widget: "markdown"}
+
+  - name: "pages"
+    label: "Pages"
+    label_singular: "Page"
+    folder: "content/pages"
+    create: true
+    format: "json"
+    extension: "json"
+    slug: "{{slug}}"
+    identifier_field: "title"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Adresse / slug", name: "slug", widget: "string"}
+      - {label: "Libellé menu", name: "menu_label", widget: "string", required: false}
+      - {label: "Publié", name: "published", widget: "boolean", default: true}
+      - {label: "Contenu", name: "body", widget: "markdown"}

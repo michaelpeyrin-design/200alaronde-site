@@ -1,0 +1,11 @@
+200 À LA RONDE - V3.2 MEDIAS LOCAUX
+
+Médias WordPress exportés : 331 fichiers.
+Fichiers texte modifiés : 43.
+Références médias remplacées : 512.
+Références WordPress médias restantes : 0.
+
+Les anciens médias sont maintenant stockés sous assets/media/YYYY/MM/.
+Les nouvelles images ajoutées via Decap CMS restent sous assets/uploads/.
+
+Cette version conserve le backend GitHub direct de la V3.1.

@@ -1,0 +1,8 @@
+[build]
+  command = "python build.py"
+  publish = "."
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301

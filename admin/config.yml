@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: michaelpeyrin-design/200alaronde-site
   branch: main
 
 local_backend: true

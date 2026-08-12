@@ -138,3 +138,26 @@ nav, .brand, .navlinks {
   letter-spacing: -0.04em;
   text-transform: uppercase;
 }
+
+
+/* V3.5.2 - Titre accueil sur une seule ligne */
+.hero h1 {
+  white-space: nowrap;
+  font-size: clamp(44px, 8.2vw, 118px);
+  line-height: 0.9;
+}
+
+/* Sur mobile : conserve une seule ligne sans débordement */
+@media (max-width: 760px) {
+  .hero h1 {
+    white-space: nowrap;
+    font-size: clamp(30px, 10.5vw, 58px);
+    letter-spacing: -0.055em;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero h1 {
+    font-size: 10.2vw;
+  }
+}

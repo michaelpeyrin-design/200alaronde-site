@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800;1,900&display=swap');
+
 
 :root{--bg:#01141e;--bg2:#043649;--panel:#075569;--cyan:#1696a7;--cyan2:#25b8c4;--ice:#9be3e5;--text:#eefcfd;--muted:#a7c7cd;--line:rgba(155,227,229,.20);--shadow:0 18px 55px rgba(0,0,0,.24)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,var(--bg),#021b27 48%,var(--bg));color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}a{color:inherit}.wrap{width:min(1180px,calc(100% - 38px));margin:auto}
@@ -124,4 +126,15 @@ nav, .brand, .navlinks {
   h1 {
     font-size: clamp(38px, 14vw, 56px);
   }
+}
+
+
+/* V3.5.1 - Typographie racing inspirée du logo */
+.hero h1,
+.page-head h1 {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
 }

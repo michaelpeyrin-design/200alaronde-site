@@ -75,7 +75,7 @@ def header():
     return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Nos sorties</a><a href="/sorties.html">Archives</a><a href="/pages/le-groupe.html">Documents</a><a href="https://200alaronde-roadbook.netlify.app/" target="_blank" rel="noopener">Roadbook</a><a href="https://dodecaudax200alaronde.netlify.app/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/partenaires-amies.html">Partenaires</a><a href="/pages/contact.html">Contact</a></div></nav></div></header>'
 
 def shell(title, content, desc=""):
-    return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(title) + ' - 200 à la ronde</title><meta name="description" content="' + esc(desc[:220]) + '"><link rel="stylesheet" href="/assets/css/site.css?v=3.6.2"></head><body>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer></body></html>'
+    return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(title) + ' - 200 à la ronde</title><meta name="description" content="' + esc(desc[:220]) + '"><link rel="stylesheet" href="/assets/css/site.css?v=3.6.4"></head><body>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer></body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -141,3 +141,6 @@ if home_path.exists():
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
     home_path.write_text(home, encoding="utf-8")
+
+
+# --- V3.6.4 : suppression des boutons d’action du hero de la page d’accueil ---

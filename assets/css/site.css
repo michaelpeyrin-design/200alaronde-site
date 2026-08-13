@@ -574,3 +574,88 @@ header {
 @media (prefers-reduced-motion: reduce) {
   .brand img { animation: none !important; }
 }
+
+
+/* V3.6.5 - Navigation mobile iPhone + accès Classement Dodecaudax */
+.mobile-nav { display:none; }
+.nav-dodecaudax {
+  background:linear-gradient(135deg,#ff8a00,#ff4d00);
+  color:#fff !important;
+  padding:10px 14px;
+  border-radius:999px;
+  box-shadow:0 8px 18px rgba(255,92,0,.22);
+  white-space:nowrap;
+}
+.hero-actions { margin-top:22px; }
+.dodecaudax-home {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  letter-spacing:.01em;
+}
+@media (max-width:760px) {
+  header { position:sticky !important; top:0; z-index:50; }
+  nav { min-height:66px; position:relative; flex-wrap:nowrap; }
+  .navlinks { display:none !important; }
+  .brand { max-width:calc(100% - 62px); }
+  .mobile-nav { display:block; margin-left:auto; position:relative; }
+  .mobile-nav > summary {
+    list-style:none;
+    width:46px;
+    height:46px;
+    border:1px solid rgba(6,31,44,.16);
+    border-radius:14px;
+    background:#fff;
+    color:#061f2c;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 5px 16px rgba(6,31,44,.10);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .mobile-nav > summary::-webkit-details-marker { display:none; }
+  .mobile-nav[open] > summary { background:#edf8fa; }
+  .mobile-navlinks {
+    position:absolute;
+    top:54px;
+    right:0;
+    width:min(86vw,330px);
+    max-height:calc(100vh - 86px);
+    overflow:auto;
+    padding:10px;
+    background:rgba(255,255,255,.98);
+    border:1px solid rgba(6,31,44,.13);
+    border-radius:18px;
+    box-shadow:0 18px 44px rgba(6,31,44,.20);
+    display:grid;
+    gap:6px;
+  }
+  .mobile-navlinks a {
+    display:block;
+    padding:12px 13px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#061f2c !important;
+    font-size:15px;
+    font-weight:800;
+  }
+  .mobile-navlinks a:hover,
+  .mobile-navlinks a:focus { background:#edf8fa; }
+  .mobile-navlinks .mobile-dodecaudax {
+    background:linear-gradient(135deg,#ff8a00,#ff4d00);
+    color:#fff !important;
+    text-align:center;
+    margin-bottom:4px;
+    box-shadow:0 8px 18px rgba(255,92,0,.20);
+  }
+  .hero-actions { margin-top:18px; }
+  .dodecaudax-home { width:100%; min-height:48px; }
+}
+
+/* Version badge — quick visual check */
+.site-version{position:fixed;top:4px;right:6px;z-index:1000;font-size:10px;line-height:1;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.62);background:rgba(1,20,30,.58);padding:3px 5px;border-radius:4px;pointer-events:none}
+@media(max-width:650px){.site-version{top:3px;right:4px;font-size:9px;padding:2px 4px}}

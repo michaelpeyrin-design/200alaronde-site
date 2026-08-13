@@ -1,0 +1,9 @@
+/sitemap.xml
+  Content-Type: application/xml; charset=UTF-8
+  X-Content-Type-Options: nosniff
+  Cache-Control: public, max-age=300
+
+/robots.txt
+  Content-Type: text/plain; charset=UTF-8
+  X-Content-Type-Options: nosniff
+  Cache-Control: public, max-age=300

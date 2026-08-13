@@ -122,9 +122,9 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=3.7.6">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=3.7.7">' + jsonld_script(data)
     )
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.7.6</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.7.7</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -241,7 +241,7 @@ if home_path.exists():
 # --- V3.6.4 : suppression des boutons d’action du hero de la page d’accueil ---
 
 
-# --- V3.7.6 : SEO technique + Cloudflare Web Analytics ---
+# --- V3.7.7 : SEO technique + Cloudflare Web Analytics ---
 def _published_routes():
     routes = [("/", "1.0"), ("/sorties.html", "0.8")]
     for p in load_jsons(ROOT/"content"/"pages"):
@@ -267,7 +267,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.7.5', 'site.css?v=3.7.6').replace('>v3.7.5<', '>v3.7.6<')
+    h = h.replace('site.css?v=3.7.5', 'site.css?v=3.7.7').replace('>v3.7.5<', '>v3.7.7<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -289,7 +289,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.7.5','site.css?v=3.7.6').replace('>v3.7.5<','>v3.7.6<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.7.5','site.css?v=3.7.7').replace('>v3.7.5<','>v3.7.7<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

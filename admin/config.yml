@@ -29,8 +29,11 @@ collections:
         widget: "select"
         options: ["Dodecaudax", "BRM", "Longue distance", "Artisan cadreur", "Lecture", "Association"]
       - {label: "Résumé", name: "summary", widget: "text", required: false}
+      - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false, hint: "Facultatif. Laissez vide pour utiliser automatiquement le titre de l’article."}
+      - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false, hint: "Facultatif. Environ 140 à 160 caractères. Laissez vide pour utiliser le résumé."}
       - {label: "Image principale", name: "featured_image", widget: "image", required: false}
       - {label: "Publié", name: "published", widget: "boolean", default: true}
+      - {label: "Afficher dans Archives", name: "show_in_archives", widget: "boolean", default: false, hint: "Activez uniquement pour les sorties à afficher dans la page Archives."}
       - {label: "Contenu", name: "body", widget: "markdown"}
 
   - name: "pages"
@@ -46,5 +49,7 @@ collections:
       - {label: "Titre", name: "title", widget: "string"}
       - {label: "Adresse / slug", name: "slug", widget: "string"}
       - {label: "Libellé menu", name: "menu_label", widget: "string", required: false}
+      - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false}
+      - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
       - {label: "Publié", name: "published", widget: "boolean", default: true}
       - {label: "Contenu", name: "body", widget: "markdown"}

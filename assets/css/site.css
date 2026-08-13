@@ -644,3 +644,44 @@ header {
 /* Version badge — quick visual check */
 .site-version{position:fixed;top:4px;right:6px;z-index:1000;font-size:10px;line-height:1;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.62);background:rgba(1,20,30,.58);padding:3px 5px;border-radius:4px;pointer-events:none}
 @media(max-width:650px){.site-version{top:3px;right:4px;font-size:9px;padding:2px 4px}}
+
+
+/* V3.7.0 - Page Nos sorties : calendrier mensuel */
+.sorties-intro{max-width:760px;margin:0 0 28px;color:#49616c;font-size:1.04rem;line-height:1.7}
+.sorties-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:28px 0 34px}
+.month-card{position:relative;display:flex;flex-direction:column;min-height:230px;padding:22px;border:1px solid rgba(6,31,44,.10);border-radius:20px;background:#fff;box-shadow:0 10px 30px rgba(6,31,44,.07);overflow:hidden}
+.month-card::before{content:"";position:absolute;left:0;top:0;width:100%;height:5px;background:#dce8eb}
+.month-open::before{background:linear-gradient(90deg,#16bfd0,#ff6b35)}
+.month-name{font-size:1.48rem;font-weight:950;letter-spacing:-.03em;color:#061f2c;margin-bottom:8px}
+.month-status{display:inline-flex;align-self:flex-start;padding:5px 9px;border-radius:999px;background:#edf3f5;color:#60747d;font-size:.73rem;font-weight:900;text-transform:uppercase;letter-spacing:.055em;margin-bottom:17px}
+.month-status.open{background:#e3f8f8;color:#08798b}
+.month-card h3{margin:0 0 7px;font-size:1.1rem;color:#061f2c}
+.month-card p{margin:0 0 18px;color:#627680;line-height:1.5}
+.month-card .ride-date{font-weight:750;color:#334e59}
+.month-link{display:inline-flex;align-items:center;justify-content:center;margin-top:auto;min-height:44px;padding:10px 14px;border-radius:12px;background:#061f2c;color:#fff !important;text-decoration:none;font-weight:900;font-size:.9rem;transition:transform .16s ease,box-shadow .16s ease}
+.month-link:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(6,31,44,.18)}
+.month-link.secondary{background:#eef5f6;color:#123b49 !important}
+.month-past{background:#f8fbfb;box-shadow:none}
+.month-past .month-name,.month-past h3{color:#60747d}
+.month-soon{background:linear-gradient(145deg,#fff,#f5fbfb)}
+.departure-note{margin-top:8px}
+@media(max-width:900px){.sorties-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.sorties-grid{grid-template-columns:1fr;gap:14px}.month-card{min-height:0;padding:19px}.month-link{width:100%}}
+
+
+/* V3.7.1 - Archives par année */
+.archives-shell{padding-top:18px}.archive-year{padding:26px 0 34px}.archive-year+.archive-year{border-top:1px solid var(--line)}.archive-year-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}.archive-year-head h2{margin:0;font-size:clamp(46px,7vw,76px);font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-style:italic}.archive-year-head span{color:var(--muted);font-size:14px;font-weight:800}.archive-year-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.archive-year-nav a{text-decoration:none;border:1px solid var(--line);background:rgba(7,85,105,.28);padding:9px 14px;border-radius:999px;font-weight:900;color:var(--ice)}.archive-year-nav a:hover{background:rgba(22,150,167,.25)}.archive-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.archive-card{min-width:0;background:linear-gradient(180deg,rgba(7,85,105,.42),rgba(4,54,73,.28));border:1px solid var(--line);border-radius:17px;padding:21px;box-shadow:var(--shadow);display:flex;flex-direction:column}.archive-card-top{display:flex;justify-content:space-between;gap:12px;align-items:center}.archive-month{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-style:italic;font-weight:900;text-transform:uppercase;font-size:23px;color:var(--ice)}.archive-date{color:var(--muted);font-size:12px;font-weight:800}.archive-cat{text-transform:uppercase;letter-spacing:.11em;font-size:11px;font-weight:900;color:var(--cyan2);margin-top:15px}.archive-card h3{font-size:24px;line-height:1.08;margin:9px 0 10px}.archive-card p{color:var(--muted);line-height:1.5;margin:0 0 18px;font-size:15px;flex:1}.archive-link{align-self:flex-start;text-decoration:none;font-weight:900;color:#001119;background:linear-gradient(135deg,var(--cyan),var(--cyan2));padding:10px 13px;border-radius:9px}.archive-link:hover{transform:translateY(-1px)}
+@media(max-width:900px){.archive-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.archive-cards{grid-template-columns:1fr}.archive-year-head{align-items:center}.archive-card{padding:18px}}
+
+/* Archives V3.7.2: regroupement visible par mois */
+.archive-month-section{padding:18px 0 28px}.archive-month-section+.archive-month-section{border-top:1px dashed rgba(255,255,255,.13)}.archive-month-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px}.archive-month-head h3{margin:0;font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-style:italic;font-size:clamp(30px,4vw,42px);text-transform:uppercase;letter-spacing:.02em;color:var(--ice)}.archive-month-head span{font-size:12px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.archive-month-section .archive-card-top{justify-content:flex-end}.archive-year-head{position:sticky;top:0;z-index:2;padding:10px 0;background:linear-gradient(180deg,var(--bg) 70%,rgba(0,17,25,0))}@media(max-width:650px){.archive-month-section{padding:14px 0 24px}.archive-month-head h3{font-size:32px}}
+
+/* V3.7.4 - Images principales mises en avant dans les archives */
+.archive-card{padding:0;overflow:hidden}
+.archive-card-body{padding:18px 21px 21px;display:flex;flex-direction:column;flex:1}
+.archive-media{display:block;aspect-ratio:16/9;overflow:hidden;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+.archive-media img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .25s ease}
+.archive-media:hover img{transform:scale(1.035)}
+@media(max-width:650px){.archive-card-body{padding:16px 18px 18px}}
+
+/* V3.7.5 - sélection manuelle des articles affichés dans Archives */

@@ -578,14 +578,6 @@ header {
 
 /* V3.6.5 - Navigation mobile iPhone + accès Classement Dodecaudax */
 .mobile-nav { display:none; }
-.nav-dodecaudax {
-  background:linear-gradient(135deg,#ff8a00,#ff4d00);
-  color:#fff !important;
-  padding:10px 14px;
-  border-radius:999px;
-  box-shadow:0 8px 18px rgba(255,92,0,.22);
-  white-space:nowrap;
-}
 .hero-actions { margin-top:22px; }
 .dodecaudax-home {
   display:inline-flex;
@@ -645,13 +637,6 @@ header {
   }
   .mobile-navlinks a:hover,
   .mobile-navlinks a:focus { background:#edf8fa; }
-  .mobile-navlinks .mobile-dodecaudax {
-    background:linear-gradient(135deg,#ff8a00,#ff4d00);
-    color:#fff !important;
-    text-align:center;
-    margin-bottom:4px;
-    box-shadow:0 8px 18px rgba(255,92,0,.20);
-  }
   .hero-actions { margin-top:18px; }
   .dodecaudax-home { width:100%; min-height:48px; }
 }

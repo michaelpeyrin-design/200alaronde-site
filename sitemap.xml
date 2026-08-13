@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://200alaronde.fr/</loc><priority>1.0</priority></url>
   <url><loc>https://200alaronde.fr/sorties.html</loc><priority>0.8</priority></url>
-  <url><loc>https://200alaronde.fr/pages/nos-sorties.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/calendrier-des-sorties.html</loc><priority>0.8</priority></url>
-  <url><loc>https://200alaronde.fr/pages/le-groupe.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/contact.html</loc><priority>0.8</priority></url>
+  <url><loc>https://200alaronde.fr/pages/le-groupe.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/nos-adherents.html</loc><priority>0.8</priority></url>
+  <url><loc>https://200alaronde.fr/pages/nos-sorties.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/partenaires-amies.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/articles/dodecaudax-septembre-2026.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/a-venir-double-dodecaudax-aout-2026-albertville-combo-73-74-depart-de-pontcharra.html</loc><priority>0.7</priority></url>
@@ -23,9 +23,9 @@
   <url><loc>https://200alaronde.fr/articles/03-2026-dodecaudax-mars-et-ca-repart.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/02-2026-dodecaudax-feverier-isere-drome.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/recap-dodecaudax-200alaronde-2025.html</loc><priority>0.7</priority></url>
-  <url><loc>https://200alaronde.fr/articles/quest-ce-que-la-longue-distance.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/brevets-federaux-du-changement.html</loc><priority>0.7</priority></url>
-  <url><loc>https://200alaronde.fr/articles/hello-world.html</loc><priority>0.7</priority></url>
-  <url><loc>https://200alaronde.fr/articles/brm-2026.html</loc><priority>0.7</priority></url>
+  <url><loc>https://200alaronde.fr/articles/quest-ce-que-la-longue-distance.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/200-le-magazine-mais-ce-nest-pas-nous.html</loc><priority>0.7</priority></url>
+  <url><loc>https://200alaronde.fr/articles/brm-2026.html</loc><priority>0.7</priority></url>
+  <url><loc>https://200alaronde.fr/articles/hello-world.html</loc><priority>0.7</priority></url>
 </urlset>

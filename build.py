@@ -122,9 +122,9 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=3.7.7">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=3.7.9">' + jsonld_script(data)
     )
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.7.7</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.7.9</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -241,7 +241,7 @@ if home_path.exists():
 # --- V3.6.4 : suppression des boutons d’action du hero de la page d’accueil ---
 
 
-# --- V3.7.7 : SEO technique + Cloudflare Web Analytics ---
+# --- V3.7.9 : SEO technique + Cloudflare Web Analytics ---
 def _published_routes():
     routes = [("/", "1.0"), ("/sorties.html", "0.8")]
     for p in load_jsons(ROOT/"content"/"pages"):
@@ -257,17 +257,25 @@ def _write_sitemap():
     for path, priority in _published_routes():
         urls.append('  <url><loc>' + esc(SITE_URL + path) + '</loc><priority>' + priority + '</priority></url>')
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(urls) + '\n</urlset>\n'
-    (ROOT/"sitemap.xml").write_text(xml, encoding="utf-8")
+    sitemap_path = ROOT / "sitemap.xml"
+    tmp_path = ROOT / "sitemap.xml.tmp"
+    tmp_path.write_text(xml, encoding="utf-8")
+    tmp_path.replace(sitemap_path)
+    # Fail the Netlify build rather than deploy an HTML/fallback response as sitemap.
+    check = sitemap_path.read_text(encoding="utf-8").lstrip()
+    if not check.startswith('<?xml version="1.0"') or '<urlset' not in check:
+        raise RuntimeError("sitemap.xml generation failed: valid XML sitemap was not produced")
 
 def _write_robots():
     robots = "User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: " + SITE_URL + "/sitemap.xml\n"
-    (ROOT/"robots.txt").write_text(robots, encoding="utf-8")
+    robots_path = ROOT / "robots.txt"
+    robots_path.write_text(robots, encoding="utf-8")
 
 def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.7.5', 'site.css?v=3.7.7').replace('>v3.7.5<', '>v3.7.7<')
+    h = h.replace('site.css?v=3.7.5', 'site.css?v=3.7.9').replace('>v3.7.5<', '>v3.7.9<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -289,7 +297,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.7.5','site.css?v=3.7.7').replace('>v3.7.5<','>v3.7.7<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.7.5','site.css?v=3.7.9').replace('>v3.7.5<','>v3.7.9<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

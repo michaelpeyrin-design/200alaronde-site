@@ -20,3 +20,13 @@
     Content-Type = "text/plain; charset=UTF-8"
     X-Content-Type-Options = "nosniff"
     Cache-Control = "public, max-age=300"
+
+[[redirects]]
+  from = "/pages/le-groupe"
+  to = "/pages/documents"
+  status = 301
+
+[[redirects]]
+  from = "/pages/le-groupe.html"
+  to = "/pages/documents.html"
+  status = 301

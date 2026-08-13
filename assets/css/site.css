@@ -711,3 +711,52 @@ header {
 
 
 .month-card[hidden]{display:none !important;}
+
+
+/* V3.7.13 - Refonte de la page Contact */
+.contact-intro{max-width:840px;margin:0 0 30px;padding-bottom:24px;border-bottom:1px solid rgba(6,31,44,.10)}
+.contact-kicker,.contact-card-label{margin:0 0 8px !important;font-size:12px !important;line-height:1.2 !important;font-weight:900;text-transform:uppercase;letter-spacing:.13em;color:#1295a6 !important}
+.contact-lead{margin:0 !important;font-size:clamp(19px,2.4vw,27px) !important;line-height:1.42 !important;font-weight:700;color:#173946 !important;max-width:780px}
+.contact-grid{display:grid;gap:18px}.contact-grid-main{grid-template-columns:1.25fr .75fr;margin:0 0 22px}
+.contact-card{border:1px solid rgba(6,31,44,.10);border-radius:20px;background:linear-gradient(145deg,#fff,#f7fbfc);box-shadow:0 12px 34px rgba(6,31,44,.07);padding:24px}
+.contact-association{display:flex;gap:18px;align-items:flex-start}.contact-icon{width:52px;height:52px;flex:0 0 52px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#1fc5d5,#84e6ee);color:#032b37;font-weight:950;font-size:25px;box-shadow:0 10px 24px rgba(31,197,213,.22)}
+.contact-card h2,.contact-actions-section h2{margin:0 0 10px;font-size:clamp(27px,3vw,38px);line-height:1.05;letter-spacing:-.035em;color:#061f2c !important}
+.contact-card p{margin:0 0 10px !important}.contact-address{margin-top:18px !important;color:#395560 !important}
+.contact-team{display:flex;flex-direction:column;justify-content:center}.contact-person{display:flex;align-items:center;gap:13px;padding:14px 0}.contact-person+.contact-person{border-top:1px solid rgba(6,31,44,.09)}
+.contact-avatar{width:46px;height:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;background:#e9f7f9;color:#087f90;font-size:13px;font-weight:950;letter-spacing:.03em}.contact-person strong{display:block;font-size:17px;color:#061f2c}.contact-person span:not(.contact-avatar){display:block;margin-top:2px;color:#637780;font-size:14px}
+.contact-actions-section{margin-top:18px;padding:28px;border-radius:22px;background:#062d3a;color:#fff;box-shadow:0 16px 40px rgba(6,31,44,.16)}.contact-actions-section .contact-card-label{color:#71e4ee !important}.contact-actions-section h2{color:#fff !important;margin-bottom:20px}
+.contact-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.contact-action{display:flex;align-items:center;gap:14px;min-width:0;padding:16px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:rgba(255,255,255,.08);color:#fff !important;text-decoration:none;transition:transform .18s ease,background .18s ease,border-color .18s ease}.contact-action:hover{transform:translateY(-2px);background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.28)}
+.contact-action-primary{background:linear-gradient(135deg,#19bccd,#43d5df);border-color:transparent;color:#032631 !important}.contact-action-primary:hover{background:linear-gradient(135deg,#26cad9,#58dde6)}
+.contact-action-icon{width:42px;height:42px;flex:0 0 42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.13);font-size:15px;font-weight:950}.contact-action-primary .contact-action-icon{background:rgba(255,255,255,.35)}.contact-action strong{display:block;font-size:16px}.contact-action small{display:block;margin-top:3px;font-size:12px;opacity:.75;overflow-wrap:anywhere}
+.contact-photo{margin:30px 0 0 !important}.contact-photo img{width:100% !important;max-height:560px;object-fit:cover;border-radius:20px !important;box-shadow:0 14px 36px rgba(6,31,44,.12)}.contact-photo figcaption{margin-top:9px;text-align:center;font-size:12px !important;color:#6a7d85 !important}
+@media(max-width:760px){.contact-grid-main,.contact-actions-grid{grid-template-columns:1fr}.contact-card,.contact-actions-section{padding:19px}.contact-association{gap:14px}.contact-icon{width:46px;height:46px;flex-basis:46px}.contact-lead{font-size:19px !important}.contact-action{padding:14px}.contact-photo{margin-top:24px !important}}
+/* V3.7.13 - Ajustements lisibilite Contact */
+.contact-actions-section .contact-card-label{color:#ffffff !important;text-shadow:none !important}
+.contact-action,.contact-action-primary{background:linear-gradient(135deg,#19bccd,#43d5df) !important;border-color:transparent !important;color:#032631 !important}
+.contact-action:hover,.contact-action-primary:hover{background:linear-gradient(135deg,#26cad9,#58dde6) !important;border-color:transparent !important}
+.contact-action .contact-action-icon,.contact-action-primary .contact-action-icon{background:rgba(255,255,255,.35) !important;color:#032631 !important}
+.contact-action small{opacity:.82}
+/* v3.7.13 contact: contraste du titre de la zone Nous joindre */
+.contact-actions-section .contact-section-head .contact-card-label,
+.contact-actions-section .contact-section-head h2{
+  color:#fff !important;
+  opacity:1 !important;
+  -webkit-text-fill-color:#fff !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.18) !important;
+}
+
+.contact-actions-section .contact-actions-title{font-size:clamp(28px,4vw,40px) !important;line-height:1.05 !important;font-weight:900 !important;color:#fff !important;margin:0 0 22px !important;}
+
+
+/* V3.8.3 - Page Documents */
+.documents-intro{max-width:760px;margin:0 0 30px !important;color:#49616c !important;font-size:1.06rem !important;line-height:1.7 !important}
+.documents-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0 34px}
+.document-tile{display:flex;align-items:center;gap:16px;min-height:108px;padding:20px 22px;border-radius:20px;background:linear-gradient(135deg,#19bccd,#43d5df);color:#032631 !important;text-decoration:none !important;box-shadow:0 12px 30px rgba(6,31,44,.12);transition:transform .18s ease,box-shadow .18s ease}
+.document-tile:hover{transform:translateY(-3px);box-shadow:0 17px 34px rgba(6,31,44,.18)}
+.document-icon{width:54px;height:54px;flex:0 0 54px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.42);font-size:13px;font-weight:950;letter-spacing:.05em;color:#032631}
+.document-copy{min-width:0;display:block;flex:1}.document-copy strong{display:block;font-size:clamp(18px,2vw,22px);line-height:1.13;color:#032631}.document-copy small{display:block;margin-top:6px;font-size:13px;line-height:1.35;color:#164953}
+.document-arrow{flex:0 0 auto;font-size:30px;font-weight:900;line-height:1;color:#032631}
+.documents-tools{margin-top:42px;padding-top:28px;border-top:1px solid rgba(6,31,44,.10)}
+.documents-tools-head span{display:block;margin-bottom:7px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.14em;color:#1295a6}.documents-tools-head h2{margin:0 0 18px !important;font-size:clamp(28px,4vw,40px) !important;color:#061f2c !important}
+.document-tool{max-width:760px;background:linear-gradient(135deg,#0e8194,#25b7c8);color:#fff !important}.document-tool .document-icon{background:rgba(255,255,255,.18);color:#fff}.document-tool .document-copy strong,.document-tool .document-arrow{color:#fff}.document-tool .document-copy small{color:#d8f7fa}
+@media(max-width:720px){.documents-grid{grid-template-columns:1fr;gap:13px}.document-tile{min-height:92px;padding:17px}.document-icon{width:48px;height:48px;flex-basis:48px}.document-arrow{font-size:25px}}

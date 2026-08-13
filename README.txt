@@ -12,3 +12,8 @@ Les images présentes dans les anciens articles restent pour cette V2 appelées 
 
 
 Version 3.7.2 : bandeau harmonisé sur toutes les pages + archives classées par année sous forme de cartes.
+
+
+Version 3.7.13 : refonte complète de la page Contact (cartes association/bureau, accès directs e-mail, téléphone, Instagram et WhatsApp, photo du bureau modernisée).
+
+V3.8.3 : page « Le Groupe » remplacée par « Documents » (/pages/documents), présentation en grandes cartes cliquables et redirection de l’ancienne URL.

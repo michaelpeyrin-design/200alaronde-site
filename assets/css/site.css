@@ -708,3 +708,6 @@ header {
 @media(max-width:650px){.archive-card-body{padding:16px 18px 18px}}
 
 /* V3.7.5 - sélection manuelle des articles affichés dans Archives */
+
+
+.month-card[hidden]{display:none !important;}

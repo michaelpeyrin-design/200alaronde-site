@@ -1,0 +1,11 @@
+200ALARONDE V3.8.5 - MISE A JOUR SANS CONFLIT NOS-SORTIES.JSON
+
+Le fichier content/pages/nos-sorties.json n'est volontairement PAS inclus dans cette archive.
+Il est désormais géré directement par l'interface Administration sur GitHub.
+
+Lors d'une mise à jour du code du site :
+- envoyer les fichiers de cette archive sur le dépôt GitHub ;
+- ne pas supprimer le fichier content/pages/nos-sorties.json déjà présent sur GitHub ;
+- les modifications faites depuis Administration > Sorties du mois restent ainsi conservées.
+
+Le dossier assets/media est également absent de cette archive.

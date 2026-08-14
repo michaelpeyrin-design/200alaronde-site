@@ -11,7 +11,9 @@
       "status": "Wait !",
       "button_label": "Wait !",
       "button_url": "Décembre",
-      "style": "soon"
+      "style": "soon",
+      "registration_open": true,
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720968-q-dodecaudax-samedi-05-decembre-2026-pas-peu-fier-de-cette-sortie"
     }
   ],
   "intro": "Wait wait "

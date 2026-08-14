@@ -1,83 +1,20 @@
 {
-  "title": "À venir",
+  "title": "A venir",
   "slug": "nos-sorties",
   "menu_label": "À venir",
   "published": true,
-  "body": "",
-  "intro": "Retrouvez le calendrier 2026 de nos sorties longue distance. Les inscriptions ouvertes sont accessibles directement depuis chaque mois.",
+  "body": "<p class=\"sorties-intro\">Retrouvez le calendrier 2026 de nos sorties longue distance. Les inscriptions ouvertes sont accessibles directement depuis chaque mois.</p>\n<div class=\"sorties-grid\">\n  <section class=\"month-card month-past\" data-month=\"1\"><div class=\"month-name\">Janvier</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"2\"><div class=\"month-name\">Février</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"3\"><div class=\"month-name\">Mars</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"4\"><div class=\"month-name\">Avril</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"5\"><div class=\"month-name\">Mai</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"6\"><div class=\"month-name\">Juin</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"7\"><div class=\"month-name\">Juillet</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-past\" data-month=\"8\"><div class=\"month-name\">Août</div><div class=\"month-status\">Terminé</div><p>Retrouvez les sorties passées dans les archives.</p><a class=\"month-link secondary\" href=\"/sorties.html\">Voir les archives</a></section>\n  <section class=\"month-card month-open\" data-month=\"9\"><div class=\"month-name\">Septembre</div><div class=\"month-status open\">Inscriptions ouvertes</div><a class=\"month-link\" href=\"https://200alaronde.assoconnect.com/collect/description/720418-q-dodecaudax-dimanche-27-septembre-2026-green-chaud\" target=\"_blank\" rel=\"noopener\">Inscription AssoConnect</a></section>\n  <section class=\"month-card month-open\" data-month=\"10\"><div class=\"month-name\">Octobre</div><div class=\"month-status open\">Inscriptions ouvertes</div><a class=\"month-link\" href=\"https://200alaronde.assoconnect.com/collect/description/720895-q-dodecaudax-weekend-09-10-et-11-10-26-the-canyon-of-ardeche\" target=\"_blank\" rel=\"noopener\">Inscription AssoConnect</a></section>\n  <section class=\"month-card month-open\" data-month=\"11\"><div class=\"month-name\">Novembre</div><div class=\"month-status open\">Inscriptions ouvertes</div><a class=\"month-link\" href=\"https://200alaronde.assoconnect.com/collect/description/720557-q-dodecaudax-samedi-10-octobre-2026-oulles-ca-pique\" target=\"_blank\" rel=\"noopener\">Inscription AssoConnect</a></section>\n  <section class=\"month-card month-soon\" data-month=\"12\"><div class=\"month-name\">Décembre</div><div class=\"month-status\">À venir</div><p>La prochaine sortie sera publiée ici dès que les inscriptions seront ouvertes.</p></section>\n</div>\n<blockquote class=\"departure-note\"><p>Pour les sorties au départ de Grenoble, le lieu de départ / arrivée reste devant le bar « <strong>L’Orangerie</strong> », en face du Stade des Alpes.</p></blockquote>\n<script>\n(function(){\n  const now = new Date();\n  const currentMonth = now.getMonth() + 1; // 1 = janvier\n  document.querySelectorAll('.month-card[data-month]').forEach(function(card){\n    const month = Number(card.dataset.month);\n    card.hidden = month < currentMonth;\n  });\n})();\n</script>",
   "months": [
-    {
-      "month": 1,
-      "name": "Janvier",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 2,
-      "name": "Février",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 3,
-      "name": "Mars",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 4,
-      "name": "Avril",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 5,
-      "name": "Mai",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 6,
-      "name": "Juin",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 7,
-      "name": "Juillet",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 8,
-      "name": "Août",
-      "registration_open": false,
-      "registration_url": ""
-    },
-    {
-      "month": 9,
-      "name": "Septembre",
-      "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720418-q-dodecaudax-dimanche-27-septembre-2026-green-chaud"
-    },
-    {
-      "month": 10,
-      "name": "Octobre",
-      "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720895-q-dodecaudax-weekend-09-10-et-11-10-26-the-canyon-of-ardeche"
-    },
-    {
-      "month": 11,
-      "name": "Novembre",
-      "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720557-q-dodecaudax-samedi-10-octobre-2026-oulles-ca-pique"
-    },
     {
       "month": 12,
       "name": "Décembre",
-      "registration_open": false,
-      "registration_url": ""
+      "status": "Wait !",
+      "button_label": "Wait !",
+      "button_url": "Décembre",
+      "style": "soon",
+      "registration_open": true,
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720968-q-dodecaudax-samedi-05-decembre-2026-pas-peu-fier-de-cette-sortie"
     }
   ],
-  "departure_note": "Pour les sorties au départ de Grenoble, le lieu de départ / arrivée reste devant le bar « L’Orangerie », en face du Stade des Alpes."
+  "intro": "Wait wait "
 }

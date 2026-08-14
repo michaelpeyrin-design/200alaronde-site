@@ -2,12 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://200alaronde.fr/</loc><priority>1.0</priority></url>
   <url><loc>https://200alaronde.fr/sorties.html</loc><priority>0.8</priority></url>
+  <url><loc>https://200alaronde.fr/pages/documents.html</loc><priority>0.8</priority></url>
+  <url><loc>https://200alaronde.fr/pages/le-groupe.html</loc><priority>0.8</priority></url>
+  <url><loc>https://200alaronde.fr/pages/partenaires-amies.html</loc><priority>0.8</priority></url>
+  <url><loc>https://200alaronde.fr/pages/nos-sorties.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/calendrier-des-sorties.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/contact.html</loc><priority>0.8</priority></url>
-  <url><loc>https://200alaronde.fr/pages/documents.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/pages/nos-adherents.html</loc><priority>0.8</priority></url>
-  <url><loc>https://200alaronde.fr/pages/nos-sorties.html</loc><priority>0.8</priority></url>
-  <url><loc>https://200alaronde.fr/pages/partenaires-amies.html</loc><priority>0.8</priority></url>
   <url><loc>https://200alaronde.fr/articles/dodecaudax-septembre-2026.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/a-venir-double-dodecaudax-aout-2026-albertville-combo-73-74-depart-de-pontcharra.html</loc><priority>0.7</priority></url>
   <url><loc>https://200alaronde.fr/articles/dodecaudax-juillet-26-vercors-mes-goulets.html</loc><priority>0.7</priority></url>

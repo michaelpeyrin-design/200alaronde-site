@@ -36,6 +36,34 @@ collections:
       - {label: "Afficher dans Archives", name: "show_in_archives", widget: "boolean", default: false, hint: "Activez uniquement pour les sorties à afficher dans la page Archives."}
       - {label: "Contenu", name: "body", widget: "markdown"}
 
+  - name: "sorties_mensuelles"
+    label: "Sorties du mois"
+    files:
+      - name: "nos_sorties"
+        label: "Encarts des sorties"
+        file: "content/pages/nos-sorties.json"
+        format: "json"
+        fields:
+          - {label: "Titre de la page", name: "title", widget: "string"}
+          - {label: "Adresse / slug", name: "slug", widget: "hidden", default: "nos-sorties"}
+          - {label: "Libellé menu", name: "menu_label", widget: "hidden", default: "À venir"}
+          - {label: "Publié", name: "published", widget: "hidden", default: true}
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - label: "Inscriptions AssoConnect par mois"
+            name: "months"
+            widget: "list"
+            summary: "{{fields.name}}"
+            minimize_collapsed: true
+            fields:
+              - {label: "Numéro du mois", name: "month", widget: "hidden"}
+              - {label: "Mois", name: "name", widget: "string"}
+              - {label: "Activer le bouton Inscription AssoConnect", name: "registration_open", widget: "boolean", default: false, required: false}
+              - {label: "Lien d'inscription AssoConnect", name: "registration_url", widget: "string", required: false, hint: "Collez ici le lien AssoConnect. Le bouton n'est affiché que si l'option ci-dessus est activée."}
+          - {label: "Note sous les encarts", name: "departure_note", widget: "text", required: false}
+          - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false}
+          - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
+          - {label: "Ancien contenu", name: "body", widget: "hidden", required: false}
+
   - name: "pages"
     label: "Pages"
     label_singular: "Page"

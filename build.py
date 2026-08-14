@@ -122,9 +122,9 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=3.7.13">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=3.8.2">' + jsonld_script(data)
     )
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.8.1</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.8.4</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -141,11 +141,65 @@ for a in articles:
     (ROOT/"articles"/f"{slug}.html").write_text(shell(a.get("title","Article"), content, seo_desc, path=f"/articles/{slug}.html", image=a.get("featured_image", ""), kind="Article", date=a.get("date", ""), seo_title=a.get("seo_title", "")), encoding="utf-8")
 
 (ROOT/"pages").mkdir(exist_ok=True)
+def sorties_months_html(p):
+    if p.get("slug") != "nos-sorties" or not p.get("months"):
+        return markdown_to_html(p.get("body", ""))
+
+    parts = []
+    for m in sorted(p.get("months", []), key=lambda x: int(x.get("month", 99))):
+        num = int(m.get("month", 0) or 0)
+        is_open = bool(m.get("registration_open")) and bool(str(m.get("registration_url", "")).strip())
+        card_class = "month-open" if is_open else "month-soon"
+        status = "Inscriptions ouvertes" if is_open else "À venir"
+        status_class = ' open' if is_open else ''
+        card = '<section class="month-card '+card_class+'" data-month="'+str(num)+'"><div class="month-name">'+esc(m.get("name", ""))+'</div><div class="month-status'+status_class+'">'+status+'</div>'
+        if is_open:
+            url = str(m.get("registration_url", "")).strip()
+            card += '<a class="month-link" href="'+esc(url)+'" target="_blank" rel="noopener">Inscription AssoConnect</a>'
+        else:
+            card += '<p>Les inscriptions ne sont pas encore ouvertes.</p>'
+        parts.append(card+'</section>')
+
+    fallback_cards = ''.join(parts)
+    intro = esc(p.get("intro", ""))
+    note = esc(p.get("departure_note", ""))
+    note_html = '<blockquote class="departure-note" id="sorties-note"><p>'+note+'</p></blockquote>' if note else '<blockquote class="departure-note" id="sorties-note" hidden><p></p></blockquote>'
+
+    script = """<script>(function(){
+const SOURCE='https://raw.githubusercontent.com/michaelpeyrin-design/200alaronde-site/main/content/pages/nos-sorties.json';
+const grid=document.getElementById('sorties-grid');
+const intro=document.getElementById('sorties-intro');
+const note=document.getElementById('sorties-note');
+function escHtml(v){return String(v??'').replace(/[&<>\\\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\\\"':'&quot;',\"'\":'&#39;'}[c]})}
+function validUrl(v){try{const u=new URL(String(v||'').trim());return u.protocol==='https:'||u.protocol==='http:'}catch(e){return false}}
+function render(data){
+  if(!data||!Array.isArray(data.months)) return;
+  if(intro&&typeof data.intro==='string') intro.textContent=data.intro;
+  if(note){const txt=String(data.departure_note||'').trim();note.hidden=!txt;const p=note.querySelector('p');if(p)p.textContent=txt;}
+  const currentMonth=(new Date()).getMonth()+1;
+  const months=[...data.months].sort((a,b)=>Number(a.month||99)-Number(b.month||99));
+  grid.innerHTML=months.map(function(m){
+    const num=Number(m.month||0); if(num<currentMonth) return '';
+    const url=String(m.registration_url||'').trim();
+    const open=m.registration_open===true && validUrl(url);
+    return '<section class=\"month-card '+(open?'month-open':'month-soon')+'\" data-month=\"'+num+'\">'+
+      '<div class=\"month-name\">'+escHtml(m.name||'')+'</div>'+
+      '<div class=\"month-status'+(open?' open':'')+'\">'+(open?'Inscriptions ouvertes':'À venir')+'</div>'+
+      (open?'<a class=\"month-link\" href=\"'+escHtml(url)+'\" target=\"_blank\" rel=\"noopener\">Inscription AssoConnect</a>':'<p>Les inscriptions ne sont pas encore ouvertes.</p>')+
+      '</section>';
+  }).join('');
+}
+document.querySelectorAll('.month-card[data-month]').forEach(function(card){card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)});
+fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(render).catch(function(e){console.warn('Configuration sorties: fallback local utilisé',e)});
+})();</script>"""
+
+    return '<p class="sorties-intro" id="sorties-intro">'+intro+'</p><div class="sorties-grid" id="sorties-grid">'+fallback_cards+'</div>'+note_html+script
+
 for p in load_jsons(ROOT/"content"/"pages"):
-    slug = p.get("slug") or "page"
-    content = '<div class="wrap page-head"><div class="eyebrow">200 à la ronde</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(p.get("title","")) + '</h1>' + markdown_to_html(p.get("body","")) + '</article></div>'
-    seo_desc = p.get("seo_description") or clean_text(p.get("body",""))
-    (ROOT/"pages"/f"{slug}.html").write_text(shell(p.get("title","Page"), content, seo_desc, path=f"/pages/{slug}.html", seo_title=p.get("seo_title", "")), encoding="utf-8")
+    slug=p.get("slug") or "page"; rendered_body=sorties_months_html(p)
+    content='<div class="wrap page-head"><div class="eyebrow">200 à la ronde</div></div><div class="wrap content-shell"><article class="article"><h1>'+esc(p.get("title",""))+'</h1>'+rendered_body+'</article></div>'
+    seo_desc=p.get("seo_description") or clean_text(p.get("intro","")) or clean_text(p.get("body",""))
+    (ROOT/"pages"/f"{slug}.html").write_text(shell(p.get("title","Page"),content,seo_desc,path=f"/pages/{slug}.html",seo_title=p.get("seo_title","")),encoding="utf-8")
 
 MONTHS_FR = {1:"Janvier",2:"Février",3:"Mars",4:"Avril",5:"Mai",6:"Juin",7:"Juillet",8:"Août",9:"Septembre",10:"Octobre",11:"Novembre",12:"Décembre"}
 
@@ -275,7 +329,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=3.7.13').replace('>v3.8.1<', '>v3.8.1<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=3.8.2').replace('>v3.8.4<', '>v3.8.4<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -297,7 +351,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=3.7.13').replace('>v3.8.1<','>v3.8.1<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=3.8.2').replace('>v3.8.4<','>v3.8.4<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

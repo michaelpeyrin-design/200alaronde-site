@@ -75,8 +75,8 @@
     {
       "month": 12,
       "name": "Décembre",
-      "registration_open": false,
-      "registration_url": ""
+      "registration_open": true,
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720968-q-dodecaudax-samedi-05-decembre-2026-pas-peu-fier-de-cette-sortie"
     }
   ],
   "departure_note": "Pour les sorties au départ de Grenoble, le lieu de départ / arrivée reste devant le bar « L’Orangerie », en face du Stade des Alpes."

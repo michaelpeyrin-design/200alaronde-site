@@ -36,12 +36,12 @@ collections:
       - {label: "Afficher dans Archives", name: "show_in_archives", widget: "boolean", default: false, hint: "Activez uniquement pour les sorties à afficher dans la page Archives."}
       - {label: "Contenu", name: "body", widget: "markdown"}
       - label: "GALERIES PHOTOS — Mosaïque / Carrousel"
-        name: "media_blocks"
+        name: "galleries"
         widget: "list"
         required: false
         minimize_collapsed: true
         summary: "{{fields.type}} — {{fields.title}}"
-        hint: "Ajoutez ici une mosaïque ou un carrousel de photos à l'article."
+        hint: "Ajoutez une ou plusieurs galeries. Choisissez Mosaïque ou Carrousel puis ajoutez les photos."
         fields:
           - label: "Présentation"
             name: "type"

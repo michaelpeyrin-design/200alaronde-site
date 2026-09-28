@@ -1,0 +1,27 @@
+200 À LA RONDE - V3.1 - ADMIN GITHUB DIRECT
+
+Cette version conserve le rendu V3 et remplace uniquement le backend
+Decap CMS 'git-gateway' par le backend GitHub direct.
+
+CONFIGURATION GITHUB
+1. GitHub > Settings > Developer settings > OAuth Apps > New OAuth App
+2. Application name : 200alaronde CMS
+3. Homepage URL : https://200alarondefr.netlify.app
+4. Authorization callback URL : https://api.netlify.com/auth/done
+5. Register application
+6. Générer un Client Secret et conserver Client ID + Client Secret
+
+CONFIGURATION NETLIFY
+1. Project configuration > Access & security > OAuth
+2. Authentication providers > Install provider
+3. Choisir GitHub
+4. Saisir Client ID et Client Secret
+5. Enregistrer
+
+ADMINISTRATION
+https://200alarondefr.netlify.app/admin/
+
+Le compte GitHub utilisé pour se connecter doit avoir un accès en écriture
+au dépôt michaelpeyrin-design/200alaronde-site.
+
+Netlify Identity et Git Gateway ne sont plus utilisés par /admin/ dans cette version.

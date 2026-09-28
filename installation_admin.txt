@@ -1,0 +1,23 @@
+200 À LA RONDE - V3 ADMIN / DECAP CMS
+
+TEST LOCAL
+- Double-cliquer sur test_local.bat.
+- Le site est reconstruit depuis content/ puis ouvert sur http://localhost:8000
+- L'interface /admin/ est présente, mais l'authentification fonctionne après déploiement Netlify.
+
+MISE EN SERVICE DE L'ADMINISTRATION
+1. Mettre ce projet dans un dépôt GitHub relié au site Netlify.
+2. Dans Netlify, activer Identity.
+3. Dans Identity > Services, activer Git Gateway.
+4. Inviter le compte administrateur.
+5. Ouvrir https://VOTRE-SITE/admin/
+
+UTILISATION
+- Articles : création, modification, date, catégorie, résumé, image principale et contenu.
+- Pages : création et modification.
+- Photos nouvelles : stockées dans assets/uploads/.
+- À chaque publication, Netlify exécute automatiquement python build.py puis republie le site.
+
+IMPORTANT
+- Les anciens articles sont désormais présents dans content/articles au format JSON et sont visibles dans le CMS.
+- Les anciennes images WordPress restent encore référencées par leurs URL WordPress dans cette V3.

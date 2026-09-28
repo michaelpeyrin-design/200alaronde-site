@@ -6,6 +6,7 @@ SITE_URL = "https://200alaronde.fr"
 SITE_NAME = "200 à la ronde"
 DEFAULT_DESC = "200 à la ronde, association cycliste grenobloise dédiée aux sorties longue distance de 200 km et plus, Dodecaudax et BRM."
 DEFAULT_IMAGE = "/assets/img/logo-200alaronde-round.png"
+CAROUSEL_JS = """<script>document.addEventListener('click',function(e){var b=e.target.closest('.carousel-prev,.carousel-next');if(!b)return;var t=b.closest('.photo-carousel').querySelector('.carousel-track');t.scrollBy({left:t.clientWidth*.9*(b.classList.contains('carousel-next')?1:-1),behavior:'smooth'});});</script>"""
 CF_ANALYTICS = "<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"85a4af337e704192a2b01df76a118d29\"}'></script>"
 
 def load_jsons(folder):
@@ -124,7 +125,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
         '<link rel="stylesheet" href="/assets/css/site.css?v=3.8.2">' + jsonld_script(data)
     )
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.8.6</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CF_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.9.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -329,7 +330,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=3.8.2').replace('>v3.8.6<', '>v3.8.6<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=3.8.2').replace('>v3.9.0<', '>v3.9.0<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -351,7 +352,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=3.8.2').replace('>v3.8.6<','>v3.8.6<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=3.8.2').replace('>v3.9.0<','>v3.9.0<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

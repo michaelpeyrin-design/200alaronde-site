@@ -39,6 +39,38 @@
   "slug": "dodecaudax-septembre-2026",
   "published": true,
   "date": "2026-09-28",
+  "galleries": [
+    {
+      "type": "mosaic",
+      "columns": "3",
+      "images": [
+        {
+          "src": "/assets/uploads/c194d5c1-2cc1-41f1-9d32-fd78d23b174a.jpg"
+        },
+        {
+          "src": "/assets/uploads/d8c4bec4-5cd9-4c6f-aee4-f51e7179b925.jpg"
+        },
+        {
+          "src": "/assets/uploads/9ea8a595-1880-447c-a0f8-4d401e833b25.jpg"
+        },
+        {
+          "src": "/assets/uploads/8791c6de-b74f-42ff-9866-1e8077658fa1.jpg"
+        },
+        {
+          "src": "/assets/uploads/daf82c84-4e2a-4a90-8b31-50b300b69b6a.jpg"
+        },
+        {
+          "src": "/assets/uploads/b140391a-6edd-430a-96c8-9f8b3982a23d.jpg"
+        },
+        {
+          "src": "/assets/uploads/0c3f9376-b1a2-44c7-beb8-06d9dc7f99b6.jpg"
+        },
+        {
+          "src": "/assets/uploads/35fb6b75-a02a-4beb-9d1b-6311eac6a6f6.jpg"
+        }
+      ]
+    }
+  ],
   "title": "Dodecaudax Septembre 2026 - Green Chaud !",
   "category": "Dodecaudax"
 }

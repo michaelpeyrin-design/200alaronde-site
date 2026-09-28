@@ -1,7 +1,7 @@
 {
   "media_blocks": [
     {
-      "type": "carousel",
+      "type": "mosaic",
       "columns": "3",
       "title": "Green Chaud",
       "images": [
@@ -25,6 +25,18 @@
         },
         {
           "src": "/assets/uploads/0c3f9376-b1a2-44c7-beb8-06d9dc7f99b6.jpg"
+        },
+        {
+          "src": "/assets/uploads/ba0b286f-43a0-446d-bc4f-6c1d47ca7c82.jpg"
+        }
+      ]
+    },
+    {
+      "type": "carousel",
+      "columns": "2",
+      "images": [
+        {
+          "src": "/assets/uploads/35fb6b75-a02a-4beb-9d1b-6311eac6a6f6.jpg"
         },
         {
           "src": "/assets/uploads/ba0b286f-43a0-446d-bc4f-6c1d47ca7c82.jpg"

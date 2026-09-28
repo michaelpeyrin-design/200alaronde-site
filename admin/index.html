@@ -3,9 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Administration - 200 à la ronde</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>CMS 200alaronde v4.0</title>
+  <style>
+    .cms-v4-badge{
+      position:fixed;right:12px;top:10px;z-index:99999;
+      background:#111;color:#fff;padding:7px 11px;border-radius:7px;
+      font:700 12px/1.2 Arial,sans-serif;box-shadow:0 2px 8px #0003
+    }
+  </style>
 </head>
-<body><div class="site-version">v3.7.2</div>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+<body>
+  <div class="cms-v4-badge">CMS 200alaronde v4.0</div>
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  <script src="https://unpkg.com/decap-cms@3.8.3/dist/decap-cms.js"></script>
+  <script>
+    CMS.init({config: {load_config_file: true}});
+  </script>
 </body>
 </html>

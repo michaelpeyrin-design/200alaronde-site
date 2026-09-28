@@ -6,23 +6,24 @@ SITE_URL = "https://200alaronde.fr"
 SITE_NAME = "200 à la ronde"
 DEFAULT_DESC = "200 à la ronde, association cycliste grenobloise dédiée aux sorties longue distance de 200 km et plus, Dodecaudax et BRM."
 DEFAULT_IMAGE = "/assets/img/logo-200alaronde-round.png"
+CAROUSEL_JS = """<script>document.addEventListener('click',function(e){const b=e.target.closest('.gallery-prev,.gallery-next');if(!b)return;const t=b.closest('.article-gallery-carousel').querySelector('.gallery-track');t.scrollBy({left:t.clientWidth*(b.classList.contains('gallery-next')?0.92:-0.92),behavior:'smooth'});});</script>"""
 
-def media_blocks_html(blocks):
+def render_galleries(galleries):
     out=[]
-    for b in blocks or []:
-        imgs=b.get("images") or []
+    for g in galleries or []:
+        imgs=g.get('images') or []
         if not imgs: continue
-        title = ('<h2 class="media-block-title">'+esc(b.get("title"))+"</h2>") if b.get("title") else ""
-        if b.get("type") == "carousel":
-            figures=''.join('<figure><img src="'+esc(i.get("src"))+ '" alt="'+esc(i.get("caption"))+ '" loading="lazy">'+(('<figcaption>'+esc(i.get("caption"))+'</figcaption>') if i.get("caption") else '')+'</figure>' for i in imgs)
-            out.append(title+'<div class="photo-carousel"><button class="carousel-prev" type="button" aria-label="Photo précédente">‹</button><div class="carousel-track">'+figures+'</div><button class="carousel-next" type="button" aria-label="Photo suivante">›</button></div>')
+        title=esc(g.get('title',''))
+        title_html=f'<h2 class="gallery-title">{title}</h2>' if title else ''
+        if g.get('type') == 'carousel':
+            figs=''.join('<figure><img src="'+esc(i.get('src',''))+'" alt="'+esc(i.get('caption',''))+'" loading="lazy">'+(('<figcaption>'+esc(i.get('caption',''))+'</figcaption>') if i.get('caption') else '')+'</figure>' for i in imgs)
+            out.append(title_html+'<div class="article-gallery-carousel"><button class="gallery-prev" type="button" aria-label="Photo précédente">‹</button><div class="gallery-track">'+figs+'</div><button class="gallery-next" type="button" aria-label="Photo suivante">›</button></div>')
         else:
-            cols=str(b.get("columns") or "3")
-            figures=''.join('<figure><img src="'+esc(i.get("src"))+ '" alt="'+esc(i.get("caption"))+ '" loading="lazy">'+(('<figcaption>'+esc(i.get("caption"))+'</figcaption>') if i.get("caption") else '')+'</figure>' for i in imgs)
-            out.append(title+'<div class="photo-mosaic" data-columns="'+esc(cols)+'">'+figures+'</div>')
+            cols=str(g.get('columns','3'))
+            if cols not in ('2','3','4'): cols='3'
+            figs=''.join('<figure><img src="'+esc(i.get('src',''))+'" alt="'+esc(i.get('caption',''))+'" loading="lazy">'+(('<figcaption>'+esc(i.get('caption',''))+'</figcaption>') if i.get('caption') else '')+'</figure>' for i in imgs)
+            out.append(title_html+'<div class="article-gallery-mosaic cols-'+cols+'">'+figs+'</div>')
     return ''.join(out)
-
-CAROUSEL_JS = """<script>document.addEventListener('click',function(e){var b=e.target.closest('.carousel-prev,.carousel-next');if(!b)return;var t=b.closest('.photo-carousel').querySelector('.carousel-track');t.scrollBy({left:t.clientWidth*.9*(b.classList.contains('carousel-next')?1:-1),behavior:'smooth'});});</script>"""
 
 CF_ANALYTICS = "<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"85a4af337e704192a2b01df76a118d29\"}'></script>"
 
@@ -140,9 +141,9 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=3.9.2">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0">' + jsonld_script(data)
     )
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v3.9.3</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -150,11 +151,11 @@ articles.sort(key=lambda x: x.get("date",""), reverse=True)
 (ROOT/"articles").mkdir(exist_ok=True)
 for a in articles:
     slug = a.get("slug") or re.sub(r"[^a-z0-9-]+", "-", a.get("title","").lower()).strip("-")
-    body = markdown_to_html(a.get("body","")) + media_blocks_html(a.get("media_blocks", []))
+    body = markdown_to_html(a.get("body",""))
     featured = ""
     if a.get("featured_image"):
         featured = '<figure class="hero-image"><img src="' + esc(a["featured_image"]) + '" alt="' + esc(a.get("title","")) + '" fetchpriority="high"></figure>'
-    content = '<div class="wrap page-head"><div class="eyebrow">' + esc(a.get("category","")) + ' · ' + esc(a.get("date","")) + '</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(a.get("title","")) + '</h1>' + featured + body + '</article></div>'
+    content = '<div class="wrap page-head"><div class="eyebrow">' + esc(a.get("category","")) + ' · ' + esc(a.get("date","")) + '</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(a.get("title","")) + '</h1>' + featured + body + render_galleries(a.get('galleries', [])) + '</article></div>'
     seo_desc = a.get("seo_description") or a.get("summary","") or clean_text(a.get("body",""))
     (ROOT/"articles"/f"{slug}.html").write_text(shell(a.get("title","Article"), content, seo_desc, path=f"/articles/{slug}.html", image=a.get("featured_image", ""), kind="Article", date=a.get("date", ""), seo_title=a.get("seo_title", "")), encoding="utf-8")
 
@@ -307,6 +308,10 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0', home, count=1)
     home_path.write_text(home, encoding="utf-8")
 
 
@@ -347,7 +352,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.9.2', 'site.css?v=3.9.2').replace('>v3.9.3<', '>v3.9.3<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v4.0.0<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -369,7 +374,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.9.2','site.css?v=3.9.2').replace('>v3.9.3<','>v3.9.3<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v4.0.0<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

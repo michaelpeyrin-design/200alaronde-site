@@ -57,16 +57,25 @@
           "src": "/assets/uploads/8791c6de-b74f-42ff-9866-1e8077658fa1.jpg"
         },
         {
-          "src": "/assets/uploads/daf82c84-4e2a-4a90-8b31-50b300b69b6a.jpg"
-        },
-        {
-          "src": "/assets/uploads/b140391a-6edd-430a-96c8-9f8b3982a23d.jpg"
-        },
+          "src": "/assets/uploads/0c3f9376-b1a2-44c7-beb8-06d9dc7f99b6.jpg"
+        }
+      ]
+    },
+    {
+      "type": "carousel",
+      "columns": "2",
+      "images": [
         {
           "src": "/assets/uploads/0c3f9376-b1a2-44c7-beb8-06d9dc7f99b6.jpg"
         },
         {
           "src": "/assets/uploads/35fb6b75-a02a-4beb-9d1b-6311eac6a6f6.jpg"
+        },
+        {
+          "src": "/assets/uploads/ba0b286f-43a0-446d-bc4f-6c1d47ca7c82.jpg"
+        },
+        {
+          "src": "/assets/uploads/daf82c84-4e2a-4a90-8b31-50b300b69b6a.jpg"
         }
       ]
     }

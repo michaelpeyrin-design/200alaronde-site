@@ -35,6 +35,41 @@ collections:
       - {label: "Publié", name: "published", widget: "boolean", default: true}
       - {label: "Afficher dans Archives", name: "show_in_archives", widget: "boolean", default: false, hint: "Activez uniquement pour les sorties à afficher dans la page Archives."}
       - {label: "Contenu", name: "body", widget: "markdown"}
+      - label: "GALERIES PHOTOS — Mosaïque / Carrousel"
+        name: "media_blocks"
+        widget: "list"
+        required: false
+        minimize_collapsed: true
+        summary: "{{fields.type}} — {{fields.title}}"
+        hint: "Ajoutez ici une mosaïque ou un carrousel de photos à l'article."
+        fields:
+          - label: "Présentation"
+            name: "type"
+            widget: "select"
+            default: "mosaic"
+            options:
+              - {label: "Mosaïque", value: "mosaic"}
+              - {label: "Carrousel", value: "carousel"}
+          - {label: "Titre de la galerie", name: "title", widget: "string", required: false}
+          - label: "Nombre de colonnes (mosaïque)"
+            name: "columns"
+            widget: "select"
+            default: "3"
+            required: false
+            options:
+              - {label: "2 colonnes", value: "2"}
+              - {label: "3 colonnes", value: "3"}
+              - {label: "4 colonnes", value: "4"}
+          - label: "Photos"
+            name: "images"
+            widget: "list"
+            required: true
+            minimize_collapsed: true
+            summary: "{{fields.caption}}"
+            fields:
+              - {label: "Photo", name: "src", widget: "image"}
+              - {label: "Légende", name: "caption", widget: "string", required: false}
+              - {label: "Texte alternatif", name: "alt", widget: "string", required: false}
 
   - name: "sorties_mensuelles"
     label: "Sorties du mois"

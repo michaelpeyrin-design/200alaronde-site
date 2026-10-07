@@ -1,0 +1,28 @@
+{
+  "body": "Le 06 octobre dernier, nous avons eu l'occasion de visiter le magasin / atelier de Thomas et Thierry : [Tom&Thierry](https://www.facebook.com/tometthierry/) à Bourg d'Oisans :\n\n<https://www.tometthierry-velo.com>",
+  "show_in_archives": false,
+  "featured_image": "/assets/uploads/3805.jpg",
+  "slug": "tom-thierry",
+  "published": false,
+  "date": "2026-10-07",
+  "galleries": [
+    {
+      "type": "mosaic",
+      "columns": "2",
+      "images": [
+        {
+          "src": "/assets/uploads/3793.jpg"
+        },
+        {
+          "src": "/assets/uploads/3808.jpg"
+        },
+        {
+          "src": "/assets/uploads/3794.jpg"
+        }
+      ]
+    }
+  ],
+  "seo_title": "Tom & Thierry",
+  "title": "[Magasin / Atelier] Tom & Thierry",
+  "category": "Artisan cadreur"
+}

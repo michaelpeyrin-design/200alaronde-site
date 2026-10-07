@@ -141,9 +141,10 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
     )
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
+    body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -217,7 +218,7 @@ fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)thro
     if is_gravel:
         script = script.replace('GRAVEL_SOURCE','gravel.json').replace("'sorties-grid'","'gravel-grid'").replace("'sorties-intro'","'gravel-intro'").replace("'sorties-note'","'gravel-note'").replace(".month-card[data-month]","#gravel-grid .month-card[data-month]")
         note_html = note_html.replace('sorties-note','gravel-note')
-        return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'</div>'+script
+        return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'<figure class="gravel-logo-footer"><img src="/assets/img/logo-gravel.png" alt="200alaronde.fr — Gravel" loading="lazy"></figure></div>'+script
     script = script.replace('GRAVEL_SOURCE','nos-sorties.json')
     return '<p class="sorties-intro" id="sorties-intro">'+intro+'</p><div class="sorties-grid" id="sorties-grid">'+fallback_cards+'</div>'+note_html+script
 
@@ -316,9 +317,9 @@ if home_path.exists():
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
     home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
-    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
     home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
-    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
     home_path.write_text(home, encoding="utf-8")
 
 

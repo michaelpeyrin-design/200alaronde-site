@@ -916,3 +916,21 @@ header {
 .gravel-calendar .month-status.open{background:#e4f0e3;color:#28583a}
 .gravel-calendar .month-link{background:linear-gradient(135deg,#315f40 0%,#173d29 100%)}
 .gravel-calendar .month-link:focus-visible{outline-color:rgba(49,95,64,.35)}
+
+/* Identité complète de la page Gravel, limitée à cette page. */
+body.gravel-page{--cyan:#315f40;--cyan2:#6f966d;--ice:#315f40;--text:#173d29!important;--muted:#526a56!important;--accent:#315f40!important;--accent-2:#b8cbb9!important;--border:rgba(36,83,55,.16)!important;--line:rgba(36,83,55,.16);background:#f5f8f3!important;color:#173d29!important}
+html:not([data-theme="dark"]) body.gravel-page :is(main,section,.page-head,h1,h2,h3,h4,.eyebrow,.brand,.brand span,.navlinks a,.article,.article a,.mobile-navlinks a){color:#173d29!important}
+html:not([data-theme="dark"]) body.gravel-page :is(p,li,.article p,.article li,footer,figcaption){color:#526a56!important}
+body.gravel-page header{background:rgba(255,255,255,.94)!important;border-color:rgba(36,83,55,.16)!important}
+body.gravel-page .article{border-color:rgba(36,83,55,.16)!important;box-shadow:0 16px 45px rgba(23,61,41,.09)}
+body.gravel-page .brand img,body.gravel-page .brand:hover img{border-color:#6f966d!important;box-shadow:inset 0 2px 4px rgba(255,255,255,.75),0 4px 0 #315f40,0 8px 0 #173d29,0 13px 22px rgba(23,61,41,.24)!important}
+body.gravel-page .navlinks a[href="/pages/gravel.html"],body.gravel-page .mobile-navlinks a[href="/pages/gravel.html"]{background:#e4f0e3!important;border-radius:8px;color:#173d29!important}
+body.gravel-page .mobile-nav[open]>summary,body.gravel-page .mobile-navlinks a:hover,body.gravel-page .mobile-navlinks a:focus{background:#e4f0e3!important}
+body.gravel-page .month-status{background:#e8eee5;color:#526a56}
+body.gravel-page .month-status.open{background:#dcebd8;color:#28583a}
+body.gravel-page .month-soon{background:linear-gradient(145deg,#fff,#f2f7f1)}
+body.gravel-page .month-link,html:not([data-theme="dark"]) body.gravel-page .article a.month-link{background:linear-gradient(135deg,#315f40,#173d29)!important;color:#fff!important;box-shadow:0 8px 20px rgba(23,61,41,.18)}
+body.gravel-page .month-link.secondary{background:#e4f0e3!important;color:#173d29!important}
+body.gravel-page .btn.primary{background:#315f40!important;color:#fff!important;border-color:#315f40!important}
+body.gravel-page .gravel-logo-footer{margin:40px 0 0;text-align:center}
+body.gravel-page .gravel-logo-footer img{display:block;width:min(340px,100%);height:auto;margin:0 auto;border-radius:0}

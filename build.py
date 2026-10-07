@@ -169,7 +169,7 @@ def sorties_months_html(p):
     parts = []
     for m in sorted(p.get("months", []), key=lambda x: int(x.get("month", 99))):
         num = int(m.get("month", 0) or 0)
-        is_open = bool(m.get("registration_open")) and bool(str(m.get("registration_url", "")).strip())
+        is_open = bool(str(m.get("registration_url", "")).strip())
         card_class = "month-open" if is_open else "month-soon"
         status = "Inscriptions ouvertes" if is_open else "À venir"
         status_class = ' open' if is_open else ''
@@ -202,7 +202,7 @@ function render(data){
   grid.innerHTML=months.map(function(m){
     const num=Number(m.month||0); if(num<currentMonth) return '';
     const url=String(m.registration_url||'').trim();
-    const open=m.registration_open===true && validUrl(url);
+    const open=validUrl(url);
     return '<section class=\"month-card '+(open?'month-open':'month-soon')+'\" data-month=\"'+num+'\">'+
       '<div class=\"month-name\">'+escHtml(m.name||'')+'</div>'+
       '<div class=\"month-status'+(open?' open':'')+'\">'+(open?'Inscriptions ouvertes':'À venir')+'</div>'+

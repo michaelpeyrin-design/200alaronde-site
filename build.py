@@ -96,7 +96,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 def header():
-    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">À venir</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://roadbook.200alaronde.fr/" target="_blank" rel="noopener">Roadbook</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">À venir</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://roadbook.200alaronde.fr/" target="_blank" rel="noopener">Roadbook</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
+    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://roadbook.200alaronde.fr/" target="_blank" rel="noopener">Roadbook</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://roadbook.200alaronde.fr/" target="_blank" rel="noopener">Roadbook</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
 
 def clean_text(s):
     s = re.sub(r'<[^>]+>', ' ', str(s or ''))
@@ -161,9 +161,11 @@ for a in articles:
 
 (ROOT/"pages").mkdir(exist_ok=True)
 def sorties_months_html(p):
-    if p.get("slug") != "nos-sorties" or not p.get("months"):
+    if p.get("slug") not in ("nos-sorties", "gravel") or not p.get("months"):
         return markdown_to_html(p.get("body", ""))
 
+    is_gravel = p.get("slug") == "gravel"
+    prefix = "gravel" if is_gravel else "sorties"
     parts = []
     for m in sorted(p.get("months", []), key=lambda x: int(x.get("month", 99))):
         num = int(m.get("month", 0) or 0)
@@ -185,7 +187,7 @@ def sorties_months_html(p):
     note_html = '<blockquote class="departure-note" id="sorties-note"><p>'+note+'</p></blockquote>' if note else '<blockquote class="departure-note" id="sorties-note" hidden><p></p></blockquote>'
 
     script = """<script>(function(){
-const SOURCE='https://raw.githubusercontent.com/michaelpeyrin-design/200alaronde-site/main/content/pages/nos-sorties.json';
+const SOURCE='https://raw.githubusercontent.com/michaelpeyrin-design/200alaronde-site/main/content/pages/GRAVEL_SOURCE';
 const grid=document.getElementById('sorties-grid');
 const intro=document.getElementById('sorties-intro');
 const note=document.getElementById('sorties-note');
@@ -212,6 +214,11 @@ document.querySelectorAll('.month-card[data-month]').forEach(function(card){card
 fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(render).catch(function(e){console.warn('Configuration sorties: fallback local utilisé',e)});
 })();</script>"""
 
+    if is_gravel:
+        script = script.replace('GRAVEL_SOURCE','gravel.json').replace("'sorties-grid'","'gravel-grid'").replace("'sorties-intro'","'gravel-intro'").replace("'sorties-note'","'gravel-note'").replace(".month-card[data-month]","#gravel-grid .month-card[data-month]")
+        note_html = note_html.replace('sorties-note','gravel-note')
+        return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'</div>'+script
+    script = script.replace('GRAVEL_SOURCE','nos-sorties.json')
     return '<p class="sorties-intro" id="sorties-intro">'+intro+'</p><div class="sorties-grid" id="sorties-grid">'+fallback_cards+'</div>'+note_html+script
 
 for p in load_jsons(ROOT/"content"/"pages"):

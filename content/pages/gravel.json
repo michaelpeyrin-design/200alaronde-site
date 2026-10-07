@@ -1,0 +1,83 @@
+{
+  "title": "Gravel",
+  "slug": "gravel",
+  "menu_label": "Gravel",
+  "published": true,
+  "body": "",
+  "intro": "Retrouvez ici le calendrier des sorties Gravel de 200 à la ronde. Les inscriptions ouvertes sont accessibles directement depuis chaque mois.",
+  "months": [
+    {
+      "month": 1,
+      "name": "Janvier",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 2,
+      "name": "Février",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 3,
+      "name": "Mars",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 4,
+      "name": "Avril",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 5,
+      "name": "Mai",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 6,
+      "name": "Juin",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 7,
+      "name": "Juillet",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 8,
+      "name": "Août",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 9,
+      "name": "Septembre",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 10,
+      "name": "Octobre",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 11,
+      "name": "Novembre",
+      "registration_open": false,
+      "registration_url": ""
+    },
+    {
+      "month": 12,
+      "name": "Décembre",
+      "registration_open": false,
+      "registration_url": ""
+    }
+  ],
+  "departure_note": ""
+}

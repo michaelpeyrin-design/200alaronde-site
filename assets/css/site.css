@@ -908,3 +908,11 @@ header {
     min-height: 105px;
   }
 }
+
+/* Gravel - identité vert forêt */
+.gravel-calendar .month-card{border-color:rgba(36,83,55,.16);background:linear-gradient(145deg,#ffffff,#f2f7f1)}
+.gravel-calendar .month-card::before{background:#b8cbb9}
+.gravel-calendar .month-open::before{background:linear-gradient(90deg,#234f35,#6f966d)}
+.gravel-calendar .month-status.open{background:#e4f0e3;color:#28583a}
+.gravel-calendar .month-link{background:linear-gradient(135deg,#315f40 0%,#173d29 100%)}
+.gravel-calendar .month-link:focus-visible{outline-color:rgba(49,95,64,.35)}

@@ -99,6 +99,34 @@ collections:
           - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
           - {label: "Ancien contenu", name: "body", widget: "hidden", required: false}
 
+  - name: "gravel_mensuel"
+    label: "Gravel - calendrier"
+    files:
+      - name: "gravel"
+        label: "Sorties Gravel"
+        file: "content/pages/gravel.json"
+        format: "json"
+        fields:
+          - {label: "Titre de la page", name: "title", widget: "string"}
+          - {label: "Adresse / slug", name: "slug", widget: "hidden", default: "gravel"}
+          - {label: "Libellé menu", name: "menu_label", widget: "hidden", default: "Gravel"}
+          - {label: "Publié", name: "published", widget: "hidden", default: true}
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - label: "Inscriptions par mois"
+            name: "months"
+            widget: "list"
+            summary: "{{fields.name}}"
+            minimize_collapsed: true
+            fields:
+              - {label: "Numéro du mois", name: "month", widget: "hidden"}
+              - {label: "Mois", name: "name", widget: "string"}
+              - {label: "Activer le bouton Inscription", name: "registration_open", widget: "boolean", default: false, required: false}
+              - {label: "Lien d'inscription", name: "registration_url", widget: "string", required: false}
+          - {label: "Note sous les encarts", name: "departure_note", widget: "text", required: false}
+          - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false}
+          - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
+          - {label: "Ancien contenu", name: "body", widget: "hidden", required: false}
+
   - name: "pages"
     label: "Pages"
     label_singular: "Page"

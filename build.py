@@ -171,6 +171,8 @@ def sorties_months_html(p):
     for m in sorted(p.get("months", []), key=lambda x: int(x.get("month", 99))):
         num = int(m.get("month", 0) or 0)
         is_open = bool(str(m.get("registration_url", "")).strip())
+        if is_gravel and not is_open:
+            continue
         card_class = "month-open" if is_open else "month-soon"
         status = "Inscriptions ouvertes" if is_open else "À venir"
         status_class = ' open' if is_open else ''
@@ -217,6 +219,7 @@ fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)thro
 
     if is_gravel:
         script = script.replace('GRAVEL_SOURCE','gravel.json').replace("'sorties-grid'","'gravel-grid'").replace("'sorties-intro'","'gravel-intro'").replace("'sorties-note'","'gravel-note'").replace(".month-card[data-month]","#gravel-grid .month-card[data-month]")
+        script = script.replace('const open=validUrl(url);', "const open=validUrl(url); if(!open) return '';")
         note_html = note_html.replace('sorties-note','gravel-note')
         return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'<figure class="gravel-logo-footer"><img src="/assets/img/logo-gravel.png" alt="200alaronde.fr — Gravel" loading="lazy"></figure></div>'+script
     script = script.replace('GRAVEL_SOURCE','nos-sorties.json')

@@ -1,0 +1,1 @@
+Remplacer build.py et pages/gravel.html dans GitHub en conservant leurs chemins, puis valider. Ce correctif complète le ZIP vert + logo : conserver ses fichiers CSS et logo. Gravel affiche uniquement les mois avec un lien inscription ; la page À venir garde son fonctionnement. Aucun dossier media inclus.

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800;1,900&display=swap');
 
 
@@ -934,3 +935,18 @@ body.gravel-page .month-link.secondary{background:#e4f0e3!important;color:#173d2
 body.gravel-page .btn.primary{background:#315f40!important;color:#fff!important;border-color:#315f40!important}
 body.gravel-page .gravel-logo-footer{margin:40px 0 0;text-align:center}
 body.gravel-page .gravel-logo-footer img{display:block;width:min(340px,100%);height:auto;margin:0 auto;border-radius:0}
+
+/* Correctif typographie du titre d'accueil - style manuscrit du logo */
+.hero h1 {
+  font-family: 'Kaushan Script', 'Brush Script MT', cursive !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.055em !important;
+  text-transform: none !important;
+  font-size: clamp(37px, 5.7vw, 82px) !important;
+  line-height: 1.18 !important;
+  white-space: nowrap !important;
+}
+@media (max-width: 760px) {
+  .hero h1 { font-size: clamp(24px, 7.4vw, 52px) !important; }
+}

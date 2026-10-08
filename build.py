@@ -141,7 +141,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-logo-typo-1">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
     return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
@@ -320,9 +320,9 @@ if home_path.exists():
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
     home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
-    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-logo-typo-1', home, count=1)
     home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
-    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-logo-typo-1', home, count=1)
     home_path.write_text(home, encoding="utf-8")
 
 

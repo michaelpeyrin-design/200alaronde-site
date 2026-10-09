@@ -25,6 +25,8 @@ def render_galleries(galleries):
             out.append(title_html+'<div class="article-gallery-mosaic cols-'+cols+'">'+figs+'</div>')
     return ''.join(out)
 
+GA_ANALYTICS = '<script defer src="/assets/js/analytics.js?v=1"></script>'
+
 CF_ANALYTICS = "<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"85a4af337e704192a2b01df76a118d29\"}'></script>"
 
 def load_jsons(folder):
@@ -144,7 +146,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -396,3 +398,11 @@ _patch_home_seo()
 _patch_404()
 _write_sitemap()
 _write_robots()
+
+# Include consent-controlled analytics on every public page, including retained pages.
+for page in ROOT.rglob('*.html'):
+    if 'admin' in page.relative_to(ROOT).parts:
+        continue
+    markup = page.read_text(encoding='utf-8')
+    if GA_ANALYTICS not in markup:
+        page.write_text(markup.replace('</head>', GA_ANALYTICS + '</head>'), encoding='utf-8')

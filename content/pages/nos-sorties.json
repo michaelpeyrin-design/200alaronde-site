@@ -75,8 +75,8 @@
     {
       "month": 12,
       "name": "Décembre",
-      "registration_open": false,
-      "registration_url": ""
+      "registration_open": true,
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/769795-q-dodecaudax-samedi-5-decembre-2026-crest-inerie-dromoise"
     }
   ],
   "departure_note": "Pour les sorties au départ de Grenoble, le lieu de départ / arrivée sera devant l'arret Tram C Flandrin / Valmy."

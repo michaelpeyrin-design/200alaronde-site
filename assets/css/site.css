@@ -950,3 +950,10 @@ body.gravel-page .gravel-logo-footer img{display:block;width:min(340px,100%);hei
 @media (max-width: 760px) {
   .hero h1 { font-size: clamp(24px, 7.4vw, 52px) !important; }
 }
+
+/* v5.0.0 : liens facultatifs en tête des articles */
+.article-external-links{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 24px}
+.article-external-links .article-external-link{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border:2px solid #143e55;border-radius:12px;background:#143e55;color:#fff;text-decoration:none;font-weight:700;line-height:1.4}
+.article-external-links .article-external-link:hover{background:#fff;color:#143e55}
+.article-external-links .article-external-link:focus-visible{outline:3px solid #d48120;outline-offset:4px}
+@media(max-width:520px){.article-external-links{flex-direction:column}.article-external-links .article-external-link{width:100%;box-sizing:border-box}}

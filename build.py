@@ -1,5 +1,6 @@
 from pathlib import Path
 import json, re, html
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).parent
 SITE_URL = "https://200alaronde.fr"
@@ -42,6 +43,21 @@ def load_jsons(folder):
 
 def esc(s):
     return html.escape(str(s or ""))
+
+def render_article_links(article):
+    links = []
+    for field, label in (("deezer_url", "Écouter sur Deezer"),
+                         ("instagram_url", "Voir les photos sur Instagram")):
+        url = str(article.get(field) or "").strip()
+        try:
+            parsed = urlsplit(url)
+            valid = parsed.scheme in ("https", "http") and bool(parsed.hostname)
+        except ValueError:
+            valid = False
+        if valid:
+            links.append('<a class="article-external-link" href="' + esc(url) +
+                         '" target="_blank" rel="noopener noreferrer">' + label + '</a>')
+    return '<nav class="article-external-links" aria-label="Musique et photos de la sortie">' + ''.join(links) + '</nav>' if links else ''
 
 def inline_md(s):
     s = esc(s)
@@ -146,7 +162,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v4.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -158,7 +174,7 @@ for a in articles:
     featured = ""
     if a.get("featured_image"):
         featured = '<figure class="hero-image"><img src="' + esc(a["featured_image"]) + '" alt="' + esc(a.get("title","")) + '" fetchpriority="high"></figure>'
-    content = '<div class="wrap page-head"><div class="eyebrow">' + esc(a.get("category","")) + ' · ' + esc(a.get("date","")) + '</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(a.get("title","")) + '</h1>' + featured + body + render_galleries(a.get('galleries', [])) + '</article></div>'
+    content = '<div class="wrap page-head"><div class="eyebrow">' + esc(a.get("category","")) + ' · ' + esc(a.get("date","")) + '</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(a.get("title","")) + '</h1>' + render_article_links(a) + featured + body + render_galleries(a.get('galleries', [])) + '</article></div>'
     seo_desc = a.get("seo_description") or a.get("summary","") or clean_text(a.get("body",""))
     (ROOT/"articles"/f"{slug}.html").write_text(shell(a.get("title","Article"), content, seo_desc, path=f"/articles/{slug}.html", image=a.get("featured_image", ""), kind="Article", date=a.get("date", ""), seo_title=a.get("seo_title", "")), encoding="utf-8")
 
@@ -324,10 +340,11 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.0</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v4.0.0</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.0</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
+    home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
 
 
@@ -368,7 +385,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v4.0.0<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.0<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -390,7 +407,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v4.0.0<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.0<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

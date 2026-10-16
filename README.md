@@ -1,9 +1,17 @@
-# 200 à la ronde — v5.0.4
+# 200 à la ronde — v5.0.5
 
 Site de l’association : https://200alaronde.fr/  
 Version du 16 octobre 2026.
 
-## Nouveautés v5.0.4
+## Nouveautés v5.0.5
+
+- Remplacement de l’iframe Strava directe par le script officiel `https://strava-embeds.com/embed.js`.
+- Le script crée le cadre de l’activité, ajoute ses paramètres de communication et ajuste sa hauteur.
+- Réutilisation du champ `strava_url` existant, sans changer les liens saisis.
+- Suppression de la hauteur CSS fixe de Strava ; Instagram reste à 2 200 px et Deezer est conservé.
+- Vérification du générateur, du balisage attendu par le script officiel, du CMS, du SEO et de l’intégrité du ZIP. L’affichage distant de l’activité ne peut pas être confirmé dans cette vérification locale.
+
+## Historique v5.0.4
 
 - Champ facultatif **Lien de la sortie Strava** dans tous les articles, nouveaux ou existants (`strava_url`).
 - Activité intégrée juste sous Deezer, avant l’image principale et le récit ; visible même si le champ Deezer est vide.

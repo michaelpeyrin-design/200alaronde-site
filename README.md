@@ -1,25 +1,32 @@
-# 200 à la ronde — v5.0.0
+# 200 à la ronde — v5.0.1
 
 Site de l’association : https://200alaronde.fr/  
 Version du 16 octobre 2026.
 
-## Nouveautés v5.0.0
+## Nouveautés v5.0.1
+
+- Remplacement des boutons v5.0.0 par un lecteur Deezer sous le titre et une publication Instagram intégrée après le texte et les galeries.
+- Les deux champs déjà enregistrés sont réutilisés ; aucun contenu JSON à remplacer.
+- Liens Deezer complets vers titre, album, playlist, artiste, podcast ou épisode ; liens Instagram vers publication, carrousel ou Reel public.
+- Formulaire précisé et validation des formats ; version du CMS actualisée.
+
+## Fonctionnalités conservées
 
 - Deux liens facultatifs par article : musique Deezer et photos sur Instagram.
-- Boutons affichés sous le titre, avant l’image principale et le texte, avec ouverture dans un nouvel onglet.
-- Les champs vides n’affichent aucun bouton. Les anciens articles restent compatibles.
+- Lecteur Deezer sous le titre ; publication Instagram tout en bas de l’article.
+- Les champs vides n’affichent aucun lecteur ni publication. Les anciens articles restent compatibles.
 - Conservation du correctif Gravel : toutes les sorties ayant un lien d’inscription sont affichées, y compris mars 2027. Les mois sans lien restent masqués sur Gravel.
 - Menu Brevets vers https://brevets.200alaronde.fr/.
-- Version affichée portée à v5.0.0 et documentation actualisée.
+- Version affichée portée à v5.0.1 et documentation actualisée.
 
 ## Ajouter la musique et les photos d’une sortie
 
 1. Ouvrir `/admin/`, puis **Articles** et l’article à modifier ou à créer.
 2. Dans **Musique Deezer**, coller le lien complet du titre, de l’album ou de la playlist.
-3. Dans **Photos de la sortie sur Instagram**, coller le lien complet de la publication, du carrousel ou du profil.
+3. Dans **Photos de la sortie sur Instagram**, coller le lien complet d’une publication, d’un carrousel ou d’un Reel public (pas du profil).
 4. Enregistrer/publier l’article et attendre le déploiement Netlify.
 
-Ces deux champs sont facultatifs. Vider un champ supprime le bouton correspondant. Il s’agit de liens externes : aucun lecteur musical ni galerie Instagram ne sont intégrés au site.
+Ces deux champs sont facultatifs. Vider un champ supprime l’intégration correspondante. Les lecteurs utilisent les services Deezer et Instagram. Une publication Instagram privée ou dont l’intégration est désactivée peut ne pas être affichée. La disponibilité et la lecture dépendent des services et du navigateur. Utiliser des liens Deezer complets, pas des liens courts deezer.page.link.
 
 Les valeurs sont enregistrées dans `content/articles/*.json` sous les clés `deezer_url` et `instagram_url`. Ne pas remplacer les contenus des articles pour installer cette mise à jour.
 
@@ -68,7 +75,12 @@ Ouvrir ensuite http://localhost:8000/.
 ### Vérifications de cette version
 
 - Génération du site et vérification SEO.
-- Liens absents : aucun bloc vide ; liens présents : deux boutons en tête d’article.
+- Liens absents : aucun bloc vide ; titre/album Deezer et publication/Reel Instagram : URL intégrée correcte. Positionnement du lecteur en haut et d’Instagram après les galeries vérifié dans le HTML généré.
 - Échappement HTML des liens et rejet des protocoles autres que HTTP/HTTPS.
 - Test du calendrier Gravel en octobre/décembre 2026 et janvier 2027.
 - Vérification de l’intégrité du ZIP et de l’absence de médias.
+
+## Références des intégrations
+
+- Deezer, générateur officiel de widget : https://widget.deezer.com/ (consulté le 16 octobre 2026).
+- Instagram, aide sur l’intégration des publications : https://help.instagram.com/ (consultée le 16 octobre 2026).

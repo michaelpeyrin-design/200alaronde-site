@@ -1,5 +1,4 @@
-200 à la ronde — v5.0.0 — 16 octobre 2026
+200 à la ronde — v5.0.1 — 16 octobre 2026
 
-La documentation à jour et l’historique des modifications sont dans README.md, affiché à la racine du dépôt GitHub.
-
-Nouveautés : liens Deezer et Instagram facultatifs en tête des articles ; correctif Gravel conservé ; menu Brevets.
+Documentation complète dans README.md.
+Lecteur Deezer intégré sous le titre ; publication Instagram intégrée en bas de l’article. Les champs existants sont réutilisés. Correctif Gravel conservé.

@@ -1,9 +1,19 @@
-# 200 à la ronde — v5.0.3
+# 200 à la ronde — v5.0.4
 
 Site de l’association : https://200alaronde.fr/  
 Version du 16 octobre 2026.
 
-## Nouveautés v5.0.3
+## Nouveautés v5.0.4
+
+- Champ facultatif **Lien de la sortie Strava** dans tous les articles, nouveaux ou existants (`strava_url`).
+- Activité intégrée juste sous Deezer, avant l’image principale et le récit ; visible même si le champ Deezer est vide.
+- Coller le lien complet `https://www.strava.com/activities/NUMERO`, puis enregistrer et attendre le déploiement. Les liens courts `strava.app.link` ne sont pas acceptés.
+- Le profil Strava et l’activité doivent être visibles par **Tout le monde** pour être intégrés (documentation Strava consultée le 16 octobre 2026 : https://support.strava.com/fr/articles/15402053-partager-vos-activites-et-itineraires-avec-une-integration-strava).
+- Utilisation du format actuel `https://strava-embeds.com/activity/NUMERO` ; champ vide = aucune intégration.
+- Deezer et cadre Instagram de 2 200 px conservés ; README et versions actualisés.
+- Vérification du champ CMS, des formats acceptés/refusés et du positionnement dans la génération ; construction, SEO et intégrité ZIP contrôlés. Le chargement du contenu distant dépend de Strava et de la visibilité de la sortie.
+
+## Historique v5.0.3
 
 - Cadre Instagram étiré à **2 200 pixels** de haut, à la demande de l’utilisateur, sur ordinateur et mobile.
 - Retour à l’iframe Instagram et retrait du script qui imposait son propre redimensionnement.

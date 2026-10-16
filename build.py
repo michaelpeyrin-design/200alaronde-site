@@ -66,16 +66,39 @@ def render_deezer(article):
     src = "https://widget.deezer.com/widget/light/" + kind + "/" + ident
     return '<section class="article-deezer" aria-label="Musique de la sortie"><iframe title="Lecteur Deezer — musique de la sortie" src="' + src + '" width="100%" height="' + height + '" allow="encrypted-media; clipboard-write"></iframe></section>'
 
+def strava_stat(value):
+    try:
+        number = float(str(value).replace(",", "."))
+        if not 0 <= number < float("inf"):
+            return ""
+        return f"{number:g}".replace(".", ",")
+    except (ValueError, TypeError):
+        return ""
+
 def render_strava(article):
-    parsed = media_url(article.get("strava_url"), ("strava.com", "www.strava.com", "strava-embeds.com"))
+    parsed = media_url(article.get("strava_url"), ("strava.com", "www.strava.com", "strava-embeds.com", "strava.app.link"))
     if not parsed:
         return ""
-    pattern = r"/activity/(\d+)/?" if parsed.hostname == "strava-embeds.com" else r"/activities/(\d+)/?"
-    match = re.fullmatch(pattern, parsed.path)
-    if not match:
-        return ""
-    ident = match.group(1)
-    return '<section class="article-strava" aria-label="Sortie Strava"><h2>La sortie sur Strava</h2><div class="strava-embed-placeholder" data-embed-type="activity" data-embed-id="' + ident + '"><a href="https://www.strava.com/activities/' + ident + '" target="_blank" rel="noopener noreferrer">Voir la sortie sur Strava</a></div></section><script defer src="https://strava-embeds.com/embed.js"></script>'
+    if parsed.hostname == "strava.app.link":
+        if not re.fullmatch(r"/[A-Za-z0-9_-]+/?", parsed.path):
+            return ""
+        url = "https://strava.app.link" + parsed.path
+    else:
+        pattern = r"/activity/(\d+)/?" if parsed.hostname == "strava-embeds.com" else r"/activities/(\d+)(?:/flyover)?/?"
+        match = re.fullmatch(pattern, parsed.path)
+        if not match:
+            return ""
+        url = "https://www.strava.com/activities/" + match.group(1)
+    stats = []
+    distance = strava_stat(article.get("strava_distance_km"))
+    elevation = strava_stat(article.get("strava_elevation_m"))
+    if distance:
+        stats.append('<span><strong>' + distance + ' km</strong> · Distance</span>')
+    if elevation:
+        stats.append('<span><strong>' + elevation + ' m</strong> · Dénivelé positif</span>')
+    logo = '<svg class="strava-logo" viewBox="0 0 40 40" width="32" height="32" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 3 5 25h8l4-8 4 8h8L17 3zm12 22-4 8-4-8h-7l11 15 11-15z"/></svg>'
+    stat_html = '<div class="strava-stats">' + ''.join(stats) + '</div>' if stats else ''
+    return '<section class="article-strava" aria-label="Sortie Strava"><a class="strava-outing-link" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + logo + '<span>Voir la sortie sur Strava</span></a>' + stat_html + '</section>'
 
 def render_instagram(article):
     parsed = media_url(article.get("instagram_url"), ("instagram.com", "www.instagram.com"))
@@ -191,7 +214,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.5</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.6</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -369,9 +392,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.5</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.6</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.5</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.6</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -414,7 +437,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.5<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.6<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -436,7 +459,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.5<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.6<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

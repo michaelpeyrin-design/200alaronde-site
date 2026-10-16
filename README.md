@@ -1,9 +1,16 @@
-# 200 à la ronde — v5.0.2
+# 200 à la ronde — v5.0.3
 
 Site de l’association : https://200alaronde.fr/  
 Version du 16 octobre 2026.
 
-## Nouveautés v5.0.2
+## Nouveautés v5.0.3
+
+- Cadre Instagram étiré à **2 200 pixels** de haut, à la demande de l’utilisateur, sur ordinateur et mobile.
+- Retour à l’iframe Instagram et retrait du script qui imposait son propre redimensionnement.
+- Largeur adaptée à l’écran, lecteur Deezer conservé et version affichée actualisée.
+- Vérification de la hauteur dans le HTML et le CSS, génération et contrôle SEO réussis. Une publication courte peut laisser de l’espace blanc dans ce cadre volontairement haut.
+
+## Historique v5.0.2
 
 - Publication Instagram intégrée via le script officiel `https://www.instagram.com/embed.js`.
 - Suppression du cadre à hauteur fixe de 720 px : Instagram calcule la hauteur de la publication.

@@ -222,6 +222,9 @@ fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)thro
     if is_gravel:
         script = script.replace('GRAVEL_SOURCE','gravel.json').replace("'sorties-grid'","'gravel-grid'").replace("'sorties-intro'","'gravel-intro'").replace("'sorties-note'","'gravel-note'").replace(".month-card[data-month]","#gravel-grid .month-card[data-month]")
         script = script.replace('const open=validUrl(url);', "const open=validUrl(url); if(!open) return '';")
+        # Gravel: les liens d'inscription pilotent l'affichage, pas le mois courant.
+        script = script.replace("if(num<currentMonth) return '';", "")
+        script = script.replace("card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)", "card.hidden=false")
         note_html = note_html.replace('sorties-note','gravel-note')
         return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'<figure class="gravel-logo-footer"><img src="/assets/img/logo-gravel.png" alt="200alaronde.fr — Gravel" loading="lazy"></figure></div>'+script
     script = script.replace('GRAVEL_SOURCE','nos-sorties.json')

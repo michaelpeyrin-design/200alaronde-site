@@ -12,7 +12,7 @@ function render(data){
   const currentMonth=(new Date()).getMonth()+1;
   const months=[...data.months].sort((a,b)=>Number(a.month||99)-Number(b.month||99));
   grid.innerHTML=months.map(function(m){
-    const num=Number(m.month||0); if(num<currentMonth) return '';
+    const num=Number(m.month||0); 
     const url=String(m.registration_url||'').trim();
     const open=validUrl(url); if(!open) return '';
     return '<section class="month-card '+(open?'month-open':'month-soon')+'" data-month="'+num+'">'+
@@ -22,6 +22,6 @@ function render(data){
       '</section>';
   }).join('');
 }
-document.querySelectorAll('#gravel-grid .month-card[data-month]').forEach(function(card){card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)});
+document.querySelectorAll('#gravel-grid .month-card[data-month]').forEach(function(card){card.hidden=false});
 fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(render).catch(function(e){console.warn('Configuration sorties: fallback local utilisé',e)});
 })();</script></article></div></main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer><script>document.addEventListener('click',function(e){const b=e.target.closest('.gallery-prev,.gallery-next');if(!b)return;const t=b.closest('.article-gallery-carousel').querySelector('.gallery-track');t.scrollBy({left:t.clientWidth*(b.classList.contains('gallery-next')?0.92:-0.92),behavior:'smooth'});});</script><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "85a4af337e704192a2b01df76a118d29"}'></script><script defer src="/assets/js/analytics.js?v=1"></script></body></html>

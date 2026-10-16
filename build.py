@@ -74,8 +74,8 @@ def render_instagram(article):
     if not match:
         return ""
     kind, ident = match.groups()
-    src = "https://www.instagram.com/" + kind + "/" + ident + "/embed/"
-    return '<section class="article-instagram" aria-label="Photos de la sortie sur Instagram"><h2>La sortie sur Instagram</h2><iframe title="Publication Instagram de la sortie" src="' + src + '" width="540" height="720" loading="lazy" allowfullscreen></iframe></section>'
+    src = "https://www.instagram.com/" + kind + "/" + ident + "/"
+    return '<section class="article-instagram" aria-label="Photos de la sortie sur Instagram"><h2>La sortie sur Instagram</h2><blockquote class="instagram-media" data-instgrm-permalink="' + src + '" data-instgrm-version="14"><a href="' + src + '" target="_blank" rel="noopener noreferrer">Voir la publication sur Instagram</a></blockquote></section><script async src="https://www.instagram.com/embed.js"></script>'
 
 def inline_md(s):
     s = esc(s)
@@ -180,7 +180,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.1</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.2</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -358,9 +358,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.1</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.2</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.1</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.2</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -403,7 +403,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.1<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.2<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -425,7 +425,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.1<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.2<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

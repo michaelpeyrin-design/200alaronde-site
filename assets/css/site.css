@@ -951,8 +951,9 @@ body.gravel-page .gravel-logo-footer img{display:block;width:min(340px,100%);hei
   .hero h1 { font-size: clamp(24px, 7.4vw, 52px) !important; }
 }
 
-/* v5.0.1 : lecteur Deezer en haut et publication Instagram en bas */
+/* v5.0.2 : lecteur Deezer en haut et publication Instagram en bas */
 .article-deezer{margin:20px 0 28px}
 .article-deezer iframe{display:block;width:100%;border:0;border-radius:12px}
 .article-instagram{margin:36px auto 20px;max-width:540px}
-.article-instagram iframe{display:block;width:100%;max-width:540px;border:0;border-radius:12px;background:#fff}
+.article-instagram .instagram-media{width:100%!important;max-width:540px!important;min-width:0!important;margin:0 auto!important;box-sizing:border-box}
+.article-instagram iframe{display:block;max-width:100%;border:0;background:#fff}

@@ -1,9 +1,16 @@
-# 200 à la ronde — v5.0.1
+# 200 à la ronde — v5.0.2
 
 Site de l’association : https://200alaronde.fr/  
 Version du 16 octobre 2026.
 
-## Nouveautés v5.0.1
+## Nouveautés v5.0.2
+
+- Publication Instagram intégrée via le script officiel `https://www.instagram.com/embed.js`.
+- Suppression du cadre à hauteur fixe de 720 px : Instagram calcule la hauteur de la publication.
+- Largeur adaptée aux écrans mobiles ; lecteur Deezer conservé.
+- Vérification du HTML généré et de la génération du site ; rendu final de la publication dépend du chargement du service Instagram.
+
+## Historique v5.0.1
 
 - Remplacement des boutons v5.0.0 par un lecteur Deezer sous le titre et une publication Instagram intégrée après le texte et les galeries.
 - Les deux champs déjà enregistrés sont réutilisés ; aucun contenu JSON à remplacer.

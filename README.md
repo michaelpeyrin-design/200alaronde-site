@@ -1,9 +1,17 @@
-# 200 à la ronde — v5.0.6
+# 200 à la ronde — v5.0.7
 
 Site de l’association : https://200alaronde.fr/  
 Version du 16 octobre 2026.
 
-## Nouveautés v5.0.6
+## Nouveautés v5.0.7
+
+- Carte Strava orange sur toute la largeur de l’article, logo blanc et lien lisible, sous Deezer.
+- Distance et dénivelé manuel affichés dans deux encarts contrastés. Valeurs vérifiées dans le JSON publié : 210 km et 4 100 m D+ pour l’article d’octobre.
+- Actualisation des chiffres et du lien depuis le JSON de l’article dans GitHub, avec repli sur le JSON local et conservation du HTML initial en cas d’erreur réseau. Cela ne récupère aucune statistique depuis Strava.
+- Chaque article conserve ses propres valeurs ; aucun contenu JSON livré.
+- CSS adaptatif, contrôle des formats et des valeurs, génération et SEO vérifiés.
+
+## Historique v5.0.6
 
 - Intégration Strava retirée : logo et lien « Voir la sortie sur Strava » sous Deezer, ouvrant l’activité dans un nouvel onglet.
 - Chaque article conserve son propre lien modifiable ; champ vide = aucun bloc Strava.

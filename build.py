@@ -36,6 +36,7 @@ def load_jsons(folder):
         try:
             d = json.loads(p.read_text(encoding="utf-8"))
             if d.get("published", True):
+                d["_source_path"] = p.relative_to(ROOT).as_posix()
                 out.append(d)
         except Exception as e:
             print("Erreur", p, e)
@@ -93,12 +94,13 @@ def render_strava(article):
     distance = strava_stat(article.get("strava_distance_km"))
     elevation = strava_stat(article.get("strava_elevation_m"))
     if distance:
-        stats.append('<span><strong>' + distance + ' km</strong> · Distance</span>')
+        stats.append('<div><dt>Distance</dt><dd>' + distance + '<small> km</small></dd></div>')
     if elevation:
-        stats.append('<span><strong>' + elevation + ' m</strong> · Dénivelé positif</span>')
+        stats.append('<div><dt>Dénivelé positif</dt><dd>' + elevation + '<small> m D+</small></dd></div>')
     logo = '<svg class="strava-logo" viewBox="0 0 40 40" width="32" height="32" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 3 5 25h8l4-8 4 8h8L17 3zm12 22-4 8-4-8h-7l11 15 11-15z"/></svg>'
-    stat_html = '<div class="strava-stats">' + ''.join(stats) + '</div>' if stats else ''
-    return '<section class="article-strava" aria-label="Sortie Strava"><a class="strava-outing-link" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + logo + '<span>Voir la sortie sur Strava</span></a>' + stat_html + '</section>'
+    stat_html = '<dl class="strava-stats"' + ('' if stats else ' hidden') + '>' + ''.join(stats) + '</dl>'
+    source = esc(article.get("_source_path", ""))
+    return '<section class="article-strava" aria-label="Sortie Strava" data-source="' + source + '"><a class="strava-outing-link" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer"><span class="strava-brand">' + logo + '<span>STRAVA</span></span><span class="strava-cta">Voir la sortie <span aria-hidden="true">↗</span></span></a>' + stat_html + '</section><script defer src="/assets/js/article-strava.js?v=5.0.7"></script>'
 
 def render_instagram(article):
     parsed = media_url(article.get("instagram_url"), ("instagram.com", "www.instagram.com"))
@@ -214,7 +216,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.6</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.7</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -392,9 +394,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.6</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.7</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.6</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.7</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -437,7 +439,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.6<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.7<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -459,7 +461,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.6<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.7<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:

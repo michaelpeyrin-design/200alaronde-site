@@ -272,10 +272,9 @@ function render(data){
   if(!data||!Array.isArray(data.months)) return;
   if(intro&&typeof data.intro==='string') intro.textContent=data.intro;
   if(note){const txt=String(data.departure_note||'').trim();note.hidden=!txt;const p=note.querySelector('p');if(p)p.textContent=txt;}
-  const currentMonth=(new Date()).getMonth()+1;
   const months=[...data.months].sort((a,b)=>Number(a.month||99)-Number(b.month||99));
   grid.innerHTML=months.map(function(m){
-    const num=Number(m.month||0); if(num<currentMonth) return '';
+    const num=Number(m.month||0);
     const url=String(m.registration_url||'').trim();
     const open=validUrl(url);
     return '<section class=\"month-card '+(open?'month-open':'month-soon')+'\" data-month=\"'+num+'\">'+
@@ -285,7 +284,6 @@ function render(data){
       '</section>';
   }).join('');
 }
-document.querySelectorAll('.month-card[data-month]').forEach(function(card){card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)});
 fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(render).catch(function(e){console.warn('Configuration sorties: fallback local utilisé',e)});
 })();</script>"""
 
@@ -480,3 +478,4 @@ for page in ROOT.rglob('*.html'):
     markup = page.read_text(encoding='utf-8')
     if GA_ANALYTICS not in markup:
         page.write_text(markup.replace('</head>', GA_ANALYTICS + '</head>'), encoding='utf-8')
+

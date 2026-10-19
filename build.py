@@ -168,7 +168,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 def header():
-    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
+    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
 
 def clean_text(s):
     s = re.sub(r'<[^>]+>', ' ', str(s or ''))
@@ -243,6 +243,8 @@ def sorties_months_html(p):
     for m in sorted(p.get("months", []), key=lambda x: int(x.get("month", 99))):
         num = int(m.get("month", 0) or 0)
         is_open = bool(str(m.get("registration_url", "")).strip())
+        if is_gravel and not is_open:
+            continue
         card_class = "month-open" if is_open else "month-soon"
         status = "Inscriptions ouvertes" if is_open else "À venir"
         status_class = ' open' if is_open else ''
@@ -260,7 +262,7 @@ def sorties_months_html(p):
     note_html = '<blockquote class="departure-note" id="sorties-note"><p>'+note+'</p></blockquote>' if note else '<blockquote class="departure-note" id="sorties-note" hidden><p></p></blockquote>'
 
     script = """<script>(function(){
-const SOURCE='/content/pages/GRAVEL_SOURCE';
+const SOURCE='https://raw.githubusercontent.com/michaelpeyrin-design/200alaronde-site/main/content/pages/GRAVEL_SOURCE';
 const grid=document.getElementById('sorties-grid');
 const intro=document.getElementById('sorties-intro');
 const note=document.getElementById('sorties-note');
@@ -270,9 +272,10 @@ function render(data){
   if(!data||!Array.isArray(data.months)) return;
   if(intro&&typeof data.intro==='string') intro.textContent=data.intro;
   if(note){const txt=String(data.departure_note||'').trim();note.hidden=!txt;const p=note.querySelector('p');if(p)p.textContent=txt;}
+  const currentMonth=(new Date()).getMonth()+1;
   const months=[...data.months].sort((a,b)=>Number(a.month||99)-Number(b.month||99));
   grid.innerHTML=months.map(function(m){
-    const num=Number(m.month||0);
+    const num=Number(m.month||0); if(num<currentMonth) return '';
     const url=String(m.registration_url||'').trim();
     const open=validUrl(url);
     return '<section class=\"month-card '+(open?'month-open':'month-soon')+'\" data-month=\"'+num+'\">'+
@@ -282,11 +285,16 @@ function render(data){
       '</section>';
   }).join('');
 }
+document.querySelectorAll('.month-card[data-month]').forEach(function(card){card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)});
 fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(render).catch(function(e){console.warn('Configuration sorties: fallback local utilisé',e)});
 })();</script>"""
 
     if is_gravel:
         script = script.replace('GRAVEL_SOURCE','gravel.json').replace("'sorties-grid'","'gravel-grid'").replace("'sorties-intro'","'gravel-intro'").replace("'sorties-note'","'gravel-note'").replace(".month-card[data-month]","#gravel-grid .month-card[data-month]")
+        script = script.replace('const open=validUrl(url);', "const open=validUrl(url); if(!open) return '';")
+        # Gravel: les liens d'inscription pilotent l'affichage, pas le mois courant.
+        script = script.replace("if(num<currentMonth) return '';", "")
+        script = script.replace("card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)", "card.hidden=false")
         note_html = note_html.replace('sorties-note','gravel-note')
         return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'<figure class="gravel-logo-footer"><img src="/assets/img/logo-gravel.png" alt="200alaronde.fr — Gravel" loading="lazy"></figure></div>'+script
     script = script.replace('GRAVEL_SOURCE','nos-sorties.json')
@@ -470,10 +478,5 @@ for page in ROOT.rglob('*.html'):
     if 'admin' in page.relative_to(ROOT).parts:
         continue
     markup = page.read_text(encoding='utf-8')
-    updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
-    if GA_ANALYTICS not in updated:
-        updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
-    if updated != markup:
-        page.write_text(updated, encoding='utf-8')
-
-
+    if GA_ANALYTICS not in markup:
+        page.write_text(markup.replace('</head>', GA_ANALYTICS + '</head>'), encoding='utf-8')

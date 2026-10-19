@@ -168,7 +168,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 def header():
-    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
+    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
 
 def clean_text(s):
     s = re.sub(r'<[^>]+>', ' ', str(s or ''))
@@ -470,7 +470,10 @@ for page in ROOT.rglob('*.html'):
     if 'admin' in page.relative_to(ROOT).parts:
         continue
     markup = page.read_text(encoding='utf-8')
-    if GA_ANALYTICS not in markup:
-        page.write_text(markup.replace('</head>', GA_ANALYTICS + '</head>'), encoding='utf-8')
+    updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
+    if GA_ANALYTICS not in updated:
+        updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
+    if updated != markup:
+        page.write_text(updated, encoding='utf-8')
 
 

@@ -1,10 +1,8 @@
 {
-  "title": "À venir",
-  "slug": "nos-sorties",
-  "menu_label": "À venir",
-  "published": true,
   "body": "",
+  "slug": "nos-sorties",
   "intro": "Retrouvez le calendrier 2026/2027 de nos dodecaudax (sorties de +200km).",
+  "published": true,
   "months": [
     {
       "month": 1,
@@ -82,5 +80,9 @@
       "outing_info": "Crest'inerie Dromoise (samedi 05/12/2026)"
     }
   ],
+  "menu_label": "À venir",
+  "seo_title": "dodecaudax 200alaronde",
+  "title": "À venir",
+  "seo_description": "Retrouvez le calendrier 2026/2027 de nos dodecaudax (sorties de +200km).",
   "departure_note": "Pour les sorties au départ de Grenoble, le lieu de départ / arrivée sera devant l'arret Tram C Flandrin / Valmy."
 }

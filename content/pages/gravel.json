@@ -20,9 +20,10 @@
     },
     {
       "month": 3,
-      "name": "Mars 2027",
+      "name": "Mars",
       "registration_open": false,
-      "registration_url": "https://www.corimadromeprovencale.com/parcours-gravel.html"
+      "registration_url": "",
+      "outing_info": ""
     },
     {
       "month": 4,
@@ -68,9 +69,10 @@
     },
     {
       "month": 11,
-      "name": "Novembre 2026",
+      "name": "Novembre",
       "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/767608-x-gravel-matheysine-canal-du-beaumont-28-11-2026"
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/767608-x-gravel-matheysine-canal-du-beaumont-28-11-2026",
+      "outing_info": "Canal du Beaumont (Samedi 21/11/2026)"
     },
     {
       "month": 12,

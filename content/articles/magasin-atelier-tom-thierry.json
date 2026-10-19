@@ -3,8 +3,8 @@
   "show_in_archives": false,
   "featured_image": "/assets/uploads/3805.jpg",
   "slug": "tom-thierry",
-  "published": false,
-  "date": "2026-10-07",
+  "published": true,
+  "date": "2026-10-19",
   "galleries": [
     {
       "type": "mosaic",

@@ -77,7 +77,7 @@ collections:
               - {label: "Texte alternatif", name: "alt", widget: "string", required: false}
 
   - name: "sorties_mensuelles"
-    label: "Sorties du mois"
+    label: "Calendrier route"
     files:
       - name: "nos_sorties"
         label: "Encarts des sorties"
@@ -86,7 +86,7 @@ collections:
         fields:
           - {label: "Titre de la page", name: "title", widget: "string"}
           - {label: "Adresse / slug", name: "slug", widget: "hidden", default: "nos-sorties"}
-          - {label: "Libellé menu", name: "menu_label", widget: "hidden", default: "À venir"}
+          - {label: "Libellé menu", name: "menu_label", widget: "hidden", default: "Calendrier route"}
           - {label: "Publié", name: "published", widget: "hidden", default: true}
           - {label: "Introduction", name: "intro", widget: "text"}
           - label: "Inscriptions AssoConnect par mois"
@@ -97,15 +97,15 @@ collections:
             fields:
               - {label: "Numéro du mois", name: "month", widget: "hidden"}
               - {label: "Mois", name: "name", widget: "string"}
-              - {label: "Activer le bouton Inscription AssoConnect", name: "registration_open", widget: "boolean", default: false, required: false}
-              - {label: "Lien d'inscription AssoConnect", name: "registration_url", widget: "string", required: false, hint: "Collez ici le lien AssoConnect. Le bouton n'est affiché que si l'option ci-dessus est activée."}
+              - {label: "Informations sur la sortie", name: "outing_info", widget: "string", required: false, hint: "Facultatif : distance, dénivelé, horaire ou lieu. Affiché avant le bouton Inscription ; vide = masqué."}
+              - {label: "Lien d'inscription AssoConnect", name: "registration_url", widget: "string", required: false, hint: "Collez ici le lien AssoConnect. Le bouton est affiché dès qu'un lien HTTP ou HTTPS est renseigné. Videz ce champ pour retirer le bouton."}
           - {label: "Note sous les encarts", name: "departure_note", widget: "text", required: false}
           - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false}
           - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
           - {label: "Ancien contenu", name: "body", widget: "hidden", required: false}
 
   - name: "gravel_mensuel"
-    label: "Gravel - calendrier"
+    label: "Calendrier gravel"
     files:
       - name: "gravel"
         label: "Sorties Gravel"
@@ -114,7 +114,7 @@ collections:
         fields:
           - {label: "Titre de la page", name: "title", widget: "string"}
           - {label: "Adresse / slug", name: "slug", widget: "hidden", default: "gravel"}
-          - {label: "Libellé menu", name: "menu_label", widget: "hidden", default: "Gravel"}
+          - {label: "Libellé menu", name: "menu_label", widget: "hidden", default: "Calendrier gravel"}
           - {label: "Publié", name: "published", widget: "hidden", default: true}
           - {label: "Introduction", name: "intro", widget: "text"}
           - label: "Inscriptions par mois"
@@ -125,6 +125,7 @@ collections:
             fields:
               - {label: "Numéro du mois", name: "month", widget: "hidden"}
               - {label: "Mois", name: "name", widget: "string"}
+              - {label: "Informations sur la sortie", name: "outing_info", widget: "string", required: false, hint: "Facultatif : distance, dénivelé, horaire ou lieu. Affiché avant le bouton Inscription ; vide = masqué."}
               - {label: "Lien d'inscription", name: "registration_url", widget: "string", required: false}
           - {label: "Note sous les encarts", name: "departure_note", widget: "text", required: false}
           - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false}
@@ -148,3 +149,4 @@ collections:
       - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
       - {label: "Publié", name: "published", widget: "boolean", default: true}
       - {label: "Contenu", name: "body", widget: "markdown"}
+

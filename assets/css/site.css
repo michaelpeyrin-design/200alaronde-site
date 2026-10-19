@@ -972,3 +972,7 @@ body.gravel-page .gravel-logo-footer img{display:block;width:min(340px,100%);hei
 .article .strava-stats dd{font-size:32px;font-weight:800;line-height:1.2;color:#fff;margin:0}
 .article .strava-stats small{font-size:16px;font-weight:600;color:#fff}
 @media(max-width:480px){.article .article-strava .strava-outing-link{padding:20px 18px}.strava-brand{font-size:21px}.strava-cta{font-size:13px}.article .strava-stats{padding:18px;gap:12px}.article .strava-stats dd{font-size:27px}}
+
+
+/* v5.0.8 : informations facultatives des calendriers route et gravel */
+.month-card .month-info{margin:12px 0;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;font-weight:500;}

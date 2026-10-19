@@ -168,7 +168,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 def header():
-    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">À venir</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
+    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
 
 def clean_text(s):
     s = re.sub(r'<[^>]+>', ' ', str(s or ''))
@@ -213,10 +213,10 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=4.0.0-gravel-green-1">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.7</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.8</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -242,13 +242,15 @@ def sorties_months_html(p):
     parts = []
     for m in sorted(p.get("months", []), key=lambda x: int(x.get("month", 99))):
         num = int(m.get("month", 0) or 0)
-        is_open = bool(str(m.get("registration_url", "")).strip())
-        if is_gravel and not is_open:
-            continue
+        parsed_url = urlsplit(str(m.get("registration_url", "")).strip())
+        is_open = parsed_url.scheme in ("http", "https") and bool(parsed_url.netloc)
         card_class = "month-open" if is_open else "month-soon"
         status = "Inscriptions ouvertes" if is_open else "À venir"
         status_class = ' open' if is_open else ''
         card = '<section class="month-card '+card_class+'" data-month="'+str(num)+'"><div class="month-name">'+esc(m.get("name", ""))+'</div><div class="month-status'+status_class+'">'+status+'</div>'
+        info = str(m.get("outing_info", "") or "").strip()
+        if info:
+            card += '<p class="month-info">' + esc(info) + '</p>'
         if is_open:
             url = str(m.get("registration_url", "")).strip()
             card += '<a class="month-link" href="'+esc(url)+'" target="_blank" rel="noopener">Inscription</a>'
@@ -262,7 +264,7 @@ def sorties_months_html(p):
     note_html = '<blockquote class="departure-note" id="sorties-note"><p>'+note+'</p></blockquote>' if note else '<blockquote class="departure-note" id="sorties-note" hidden><p></p></blockquote>'
 
     script = """<script>(function(){
-const SOURCE='https://raw.githubusercontent.com/michaelpeyrin-design/200alaronde-site/main/content/pages/GRAVEL_SOURCE';
+const SOURCE='/content/pages/GRAVEL_SOURCE';
 const grid=document.getElementById('sorties-grid');
 const intro=document.getElementById('sorties-intro');
 const note=document.getElementById('sorties-note');
@@ -272,29 +274,25 @@ function render(data){
   if(!data||!Array.isArray(data.months)) return;
   if(intro&&typeof data.intro==='string') intro.textContent=data.intro;
   if(note){const txt=String(data.departure_note||'').trim();note.hidden=!txt;const p=note.querySelector('p');if(p)p.textContent=txt;}
-  const currentMonth=(new Date()).getMonth()+1;
   const months=[...data.months].sort((a,b)=>Number(a.month||99)-Number(b.month||99));
   grid.innerHTML=months.map(function(m){
-    const num=Number(m.month||0); if(num<currentMonth) return '';
+    const num=Number(m.month||0);
     const url=String(m.registration_url||'').trim();
     const open=validUrl(url);
+    const info=String(m.outing_info||'').trim();
     return '<section class=\"month-card '+(open?'month-open':'month-soon')+'\" data-month=\"'+num+'\">'+
       '<div class=\"month-name\">'+escHtml(m.name||'')+'</div>'+
       '<div class=\"month-status'+(open?' open':'')+'\">'+(open?'Inscriptions ouvertes':'À venir')+'</div>'+
+      (info?'<p class=\"month-info\">'+escHtml(info)+'</p>':'')+
       (open?'<a class=\"month-link\" href=\"'+escHtml(url)+'\" target=\"_blank\" rel=\"noopener\">Inscription</a>':'<p>Les inscriptions ne sont pas encore ouvertes.</p>')+
       '</section>';
   }).join('');
 }
-document.querySelectorAll('.month-card[data-month]').forEach(function(card){card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)});
 fetch(SOURCE+'?v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(render).catch(function(e){console.warn('Configuration sorties: fallback local utilisé',e)});
 })();</script>"""
 
     if is_gravel:
         script = script.replace('GRAVEL_SOURCE','gravel.json').replace("'sorties-grid'","'gravel-grid'").replace("'sorties-intro'","'gravel-intro'").replace("'sorties-note'","'gravel-note'").replace(".month-card[data-month]","#gravel-grid .month-card[data-month]")
-        script = script.replace('const open=validUrl(url);', "const open=validUrl(url); if(!open) return '';")
-        # Gravel: les liens d'inscription pilotent l'affichage, pas le mois courant.
-        script = script.replace("if(num<currentMonth) return '';", "")
-        script = script.replace("card.hidden=Number(card.dataset.month)<((new Date()).getMonth()+1)", "card.hidden=false")
         note_html = note_html.replace('sorties-note','gravel-note')
         return '<div class="gravel-calendar"><p class="sorties-intro" id="gravel-intro">'+intro+'</p><div class="sorties-grid" id="gravel-grid">'+fallback_cards+'</div>'+note_html+'<figure class="gravel-logo-footer"><img src="/assets/img/logo-gravel.png" alt="200alaronde.fr — Gravel" loading="lazy"></figure></div>'+script
     script = script.replace('GRAVEL_SOURCE','nos-sorties.json')
@@ -394,10 +392,10 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.7</div>', home, count=1)
-    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.7</div>', home, count=1)
-    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=4.0.0-gravel-green-1', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.8</div>', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.8</div>', home, count=1)
+    home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
 
@@ -439,7 +437,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.7<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.8<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -461,7 +459,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.7<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.8<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -473,10 +471,26 @@ _patch_404()
 _write_sitemap()
 _write_robots()
 
+# Public release history, generated from the versioned Markdown log.
+release_log = ROOT / 'CHANGELOG.md'
+if release_log.exists():
+    release_body = '<div class="wrap content-shell"><article class="article">' + markdown_to_html(release_log.read_text(encoding='utf-8')) + '</article></div>'
+    (ROOT / 'pages' / 'versions.html').write_text(shell('Historique des versions', release_body, path='/pages/versions.html'), encoding='utf-8')
+
 # Include consent-controlled analytics on every public page, including retained pages.
 for page in ROOT.rglob('*.html'):
     if 'admin' in page.relative_to(ROOT).parts:
         continue
     markup = page.read_text(encoding='utf-8')
-    if GA_ANALYTICS not in markup:
-        page.write_text(markup.replace('</head>', GA_ANALYTICS + '</head>'), encoding='utf-8')
+    updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
+    if GA_ANALYTICS not in updated:
+        updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.0.8', updated)
+    if '/pages/versions.html' not in updated:
+        updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.0.8 · Historique des modifications</a></div></footer>')
+    else:
+        updated = re.sub(r'Version [0-9.]+ · Historique des modifications', 'Version 5.0.8 · Historique des modifications', updated)
+    if updated != markup:
+        page.write_text(updated, encoding='utf-8')
+
+

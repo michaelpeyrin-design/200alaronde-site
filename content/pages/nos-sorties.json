@@ -8,9 +8,10 @@
   "months": [
     {
       "month": 1,
-      "name": "Janvier 2027",
+      "name": "Janvier",
       "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/773051-q-dodecaudax-samedi-16-janvier-2027-ronde-des-lacs-73-74"
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/773051-q-dodecaudax-samedi-16-janvier-2027-ronde-des-lacs-73-74",
+      "outing_info": "Ronde des lacs (Samedi 16/01/2027)"
     },
     {
       "month": 2,
@@ -68,15 +69,17 @@
     },
     {
       "month": 11,
-      "name": "Novembre 2026",
+      "name": "Novembre",
       "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720557-q-dodecaudax-samedi-10-octobre-2026-oulles-ca-pique"
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/720557-q-dodecaudax-samedi-10-octobre-2026-oulles-ca-pique",
+      "outing_info": "Oulles ca pique (samedi 07/11/2026)"
     },
     {
       "month": 12,
-      "name": "Décembre 2026",
+      "name": "Décembre",
       "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/769795-q-dodecaudax-samedi-5-decembre-2026-crest-inerie-dromoise"
+      "registration_url": "https://200alaronde.assoconnect.com/collect/description/769795-q-dodecaudax-samedi-5-decembre-2026-crest-inerie-dromoise",
+      "outing_info": "Crest'inerie Dromoise (samedi 05/12/2026)"
     }
   ],
   "departure_note": "Pour les sorties au départ de Grenoble, le lieu de départ / arrivée sera devant l'arret Tram C Flandrin / Valmy."

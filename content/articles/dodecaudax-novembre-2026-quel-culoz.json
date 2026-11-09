@@ -16,16 +16,16 @@
       "columns": "3",
       "images": [
         {
-          "src": "/assets/uploads/img_0035.jpg"
+          "src": "/assets/uploads/3eb565d2-f713-4fd2-8873-29afc9a32de0.jpg"
         },
         {
-          "src": "/assets/uploads/img_0018.jpeg"
+          "src": "/assets/uploads/b3c277e8-e7b3-4973-bde4-df5a09beeee5.jpg"
         },
         {
-          "src": "/assets/uploads/img_0019.jpeg"
+          "src": "/assets/uploads/img_0020.jpeg"
         },
         {
-          "src": "/assets/uploads/img_0024.jpeg"
+          "src": "/assets/uploads/img_0022.jpeg"
         }
       ]
     },
@@ -34,13 +34,16 @@
       "columns": "3",
       "images": [
         {
-          "src": "/assets/uploads/b3c277e8-e7b3-4973-bde4-df5a09beeee5.jpg"
+          "src": "/assets/uploads/img_0019.jpeg"
         },
         {
-          "src": "/assets/uploads/3eb565d2-f713-4fd2-8873-29afc9a32de0.jpg"
+          "src": "/assets/uploads/img_0023.jpeg"
         },
         {
-          "src": "/assets/uploads/img_0020.jpeg"
+          "src": "/assets/uploads/img_0024.jpeg"
+        },
+        {
+          "src": "/assets/uploads/img_0025.jpeg"
         }
       ]
     }

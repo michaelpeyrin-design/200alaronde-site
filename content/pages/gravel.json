@@ -29,8 +29,8 @@
       "month": 4,
       "name": "Avril",
       "registration_open": false,
-      "registration_url": "https://www.corimadromeprovencale.com/programme.html",
-      "outing_info": "Corima Gravel (samedi 03/04/2027)"
+      "registration_url": "",
+      "outing_info": "Gravel Chartreuse (date à définir)"
     },
     {
       "month": 5,
@@ -72,8 +72,8 @@
       "month": 11,
       "name": "Novembre",
       "registration_open": true,
-      "registration_url": "https://200alaronde.assoconnect.com/collect/description/767608-x-gravel-matheysine-canal-du-beaumont-28-11-2026",
-      "outing_info": "Canal du Beaumont (Samedi 21/11/2026)"
+      "registration_url": "",
+      "outing_info": ""
     },
     {
       "month": 12,

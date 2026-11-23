@@ -1,0 +1,60 @@
+/* V5.1.4 — Mosaïques photo en format naturel, priorité aux portraits. */
+.article-gallery-mosaic {
+  display: block !important;
+  column-count: 4;
+  column-gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-block: 1.5rem;
+}
+.article-gallery-mosaic figure {
+  display: inline-block !important;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 14px !important;
+  padding: 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.article-gallery-mosaic figure img {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  border-radius: 8px;
+}
+.article-gallery-mosaic figcaption {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding-block: 5px;
+}
+.article-gallery-carousel,
+.article-gallery-carousel .gallery-track {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.article-gallery-carousel img,
+.article-photo-sized img {
+  max-width: 100% !important;
+  height: auto;
+}
+@media (min-width: 600px) and (max-width: 1023px) {
+  .article-gallery-mosaic { column-count: 3; column-gap: 12px; }
+  .article-gallery-mosaic figure { margin-bottom: 12px !important; }
+}
+@media (max-width: 599px) {
+  .article-gallery-mosaic { column-count: 2; column-gap: 8px; }
+  .article-gallery-mosaic figure { margin-bottom: 8px !important; }
+  .article-gallery-mosaic figcaption { font-size: 0.75rem; line-height: 1.35; }
+  .article-gallery-carousel .gallery-track { overflow-x: auto; }
+}
+@media (max-width: 350px) {
+  .article-gallery-mosaic { column-gap: 6px; }
+  .article-gallery-mosaic figure { margin-bottom: 6px !important; }
+}

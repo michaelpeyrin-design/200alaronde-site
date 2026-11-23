@@ -129,6 +129,9 @@ def inline_md(s):
 def markdown_to_html(text, galleries=None):
     if not text:
         return ""
+    # Dès qu'un article place explicitement ses galeries, ne plus ajouter
+    # automatiquement les éventuelles galeries restantes en fin d'article.
+    has_gallery_positions = bool(re.search(r'(?m)^\s*\[\[galerie:\d+\]\]\s*$', text))
     if re.search(r"<(p|h[1-6]|figure|div|ul|ol|blockquote|img|table)\b", text, re.I):
         return text
     lines = text.replace("\r\n", "\n").split("\n")
@@ -188,7 +191,7 @@ def markdown_to_html(text, galleries=None):
         out.append("</ul>")
     if in_ol:
         out.append("</ol>")
-    if galleries is not None:
+    if galleries is not None and not has_gallery_positions:
         out.extend(render_galleries([gallery]) for index, gallery in enumerate(galleries) if index not in used_galleries)
     return "\n".join(out)
 
@@ -241,7 +244,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.1</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.2</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -417,9 +420,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.1</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.2</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.1</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.2</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -462,7 +465,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.1<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.2<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -484,7 +487,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.1<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.2<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -510,7 +513,7 @@ for page in ROOT.rglob('*.html'):
     updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
     if GA_ANALYTICS not in updated:
         updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.1', updated)
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.2', updated)
     if '/pages/versions.html' not in updated:
         updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.0.8 · Historique des modifications</a></div></footer>')
     else:

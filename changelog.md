@@ -1,5 +1,10 @@
 # Historique des modifications
 
+## v5.1.2 — 23 novembre 2026
+
+- Correction du doublonnage des mosaïques et carrousels en fin d'article : lorsqu'au moins un emplacement `[[galerie:N]]` est utilisé dans le contenu, seules les galeries explicitement positionnées sont affichées.
+- Les anciens articles sans emplacement explicite conservent le comportement historique : galeries affichées en fin d'article.
+
 ## v5.1.1 — 23 novembre 2026
 
 - Nouvelle rubrique « Catégories » dans l'administration : création et modification des catégories d'articles sans intervenir dans le code.

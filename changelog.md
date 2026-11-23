@@ -1,5 +1,10 @@
 # Historique des modifications
 
+## v5.1.3 — 23 novembre 2026
+
+- Correction du placement des galeries dans les articles contenant du HTML mélangé au Markdown, notamment les blocs « Photo réglable » : les marqueurs `[[galerie:N]]` sont désormais interprétés dans les deux cas.
+- Les galeries explicitement placées ne sont plus ajoutées en bas de l'article ; les anciens articles sans marqueurs restent compatibles.
+
 ## v5.1.2 — 23 novembre 2026
 
 - Correction du doublonnage des mosaïques et carrousels en fin d'article : lorsqu'au moins un emplacement `[[galerie:N]]` est utilisé dans le contenu, seules les galeries explicitement positionnées sont affichées.

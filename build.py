@@ -129,14 +129,35 @@ def inline_md(s):
 def markdown_to_html(text, galleries=None):
     if not text:
         return ""
-    # Dès qu'un article place explicitement ses galeries, ne plus ajouter
-    # automatiquement les éventuelles galeries restantes en fin d'article.
-    has_gallery_positions = bool(re.search(r'(?m)^\s*\[\[galerie:\d+\]\]\s*$', text))
+    # Les blocs peuvent arriver sous forme de Markdown ou de HTML depuis Decap.
+    # Les traiter dans les deux cas, après la conversion du texte.
+    gallery_pattern = r'(?:<p>\s*)?\[\[\s*galerie\s*:\s*(\d+)\s*\]\](?:\s*</p>)?'
+    has_gallery_positions = bool(re.search(gallery_pattern, text, re.I))
+
+    def finish(html_text):
+        used = set()
+        def insert_gallery(match):
+            index = int(match.group(1)) - 1
+            if galleries is None or index < 0 or index >= len(galleries) or index in used:
+                return ''
+            used.add(index)
+            return render_galleries([galleries[index]])
+
+        if galleries is not None:
+            html_text = re.sub(gallery_pattern, insert_gallery, html_text, flags=re.I)
+            if not has_gallery_positions:
+                html_text += '\n' + render_galleries(galleries)
+
+        def insert_photo(match):
+            width, src = match.group(1), match.group(2)
+            size = width if width == '100%' else width + 'px'
+            return '<figure class="article-photo-sized"><img src="' + esc(src.strip()) + '" alt="" loading="lazy" decoding="async" style="width:100%;max-width:' + size + '"></figure>'
+        return re.sub(r'(?:<p>\s*)?\[\[photo:(600|800|1200|1600|100%):([^\]\n]+)\]\](?:\s*</p>)?', insert_photo, html_text)
+
     if re.search(r"<(p|h[1-6]|figure|div|ul|ol|blockquote|img|table)\b", text, re.I):
-        return text
+        return finish(text)
     lines = text.replace("\r\n", "\n").split("\n")
     out, in_ul, in_ol = [], False, False
-    used_galleries = set()
     for line in lines:
         if not line.strip():
             if in_ul:
@@ -145,15 +166,6 @@ def markdown_to_html(text, galleries=None):
                 out.append("</ol>"); in_ol = False
             continue
         if galleries is not None:
-            gallery_match = re.fullmatch(r'\s*\[\[galerie:(\d+)\]\]\s*', line)
-            if gallery_match:
-                if in_ul: out.append('</ul>'); in_ul = False
-                if in_ol: out.append('</ol>'); in_ol = False
-                index = int(gallery_match.group(1)) - 1
-                if 0 <= index < len(galleries) and index not in used_galleries:
-                    out.append(render_galleries([galleries[index]]))
-                    used_galleries.add(index)
-                continue
             photo_match = re.fullmatch(r'\s*\[\[photo:(600|800|1200|1600|100%):([^\]\n]+)\]\]\s*', line)
             if photo_match:
                 if in_ul: out.append('</ul>'); in_ul = False
@@ -191,9 +203,7 @@ def markdown_to_html(text, galleries=None):
         out.append("</ul>")
     if in_ol:
         out.append("</ol>")
-    if galleries is not None and not has_gallery_positions:
-        out.extend(render_galleries([gallery]) for index, gallery in enumerate(galleries) if index not in used_galleries)
-    return "\n".join(out)
+    return finish("\n".join(out))
 
 def header():
     return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
@@ -244,7 +254,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.2</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.3</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -420,9 +430,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.2</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.3</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.2</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.3</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -465,7 +475,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.2<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.3<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -487,7 +497,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.2<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.3<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -513,7 +523,7 @@ for page in ROOT.rglob('*.html'):
     updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
     if GA_ANALYTICS not in updated:
         updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.2', updated)
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.3', updated)
     if '/pages/versions.html' not in updated:
         updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.0.8 · Historique des modifications</a></div></footer>')
     else:

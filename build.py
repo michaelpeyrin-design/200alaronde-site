@@ -126,13 +126,14 @@ def inline_md(s):
     s = re.sub(r'\*(.+?)\*', r'<em>\1</em>', s)
     return s
 
-def markdown_to_html(text):
+def markdown_to_html(text, galleries=None):
     if not text:
         return ""
     if re.search(r"<(p|h[1-6]|figure|div|ul|ol|blockquote|img|table)\b", text, re.I):
         return text
     lines = text.replace("\r\n", "\n").split("\n")
     out, in_ul, in_ol = [], False, False
+    used_galleries = set()
     for line in lines:
         if not line.strip():
             if in_ul:
@@ -140,6 +141,23 @@ def markdown_to_html(text):
             if in_ol:
                 out.append("</ol>"); in_ol = False
             continue
+        if galleries is not None:
+            gallery_match = re.fullmatch(r'\s*\[\[galerie:(\d+)\]\]\s*', line)
+            if gallery_match:
+                if in_ul: out.append('</ul>'); in_ul = False
+                if in_ol: out.append('</ol>'); in_ol = False
+                index = int(gallery_match.group(1)) - 1
+                if 0 <= index < len(galleries) and index not in used_galleries:
+                    out.append(render_galleries([galleries[index]]))
+                    used_galleries.add(index)
+                continue
+            photo_match = re.fullmatch(r'\s*\[\[photo:(600|800|1200|1600|100%):([^\]\n]+)\]\]\s*', line)
+            if photo_match:
+                if in_ul: out.append('</ul>'); in_ul = False
+                if in_ol: out.append('</ol>'); in_ol = False
+                width, src = photo_match.groups()
+                out.append('<figure class="article-photo-sized"><img src="' + esc(src.strip()) + '" alt="" loading="lazy" decoding="async" style="width:100%;max-width:' + (width if width == '100%' else width + 'px') + '"></figure>')
+                continue
         m = re.match(r"^(#{1,4})\s+(.+)$", line)
         if m:
             n = len(m.group(1))
@@ -170,6 +188,8 @@ def markdown_to_html(text):
         out.append("</ul>")
     if in_ol:
         out.append("</ol>")
+    if galleries is not None:
+        out.extend(render_galleries([gallery]) for index, gallery in enumerate(galleries) if index not in used_galleries)
     return "\n".join(out)
 
 def header():
@@ -221,7 +241,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.0.9</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.0</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -229,11 +249,11 @@ articles.sort(key=lambda x: x.get("date",""), reverse=True)
 (ROOT/"articles").mkdir(exist_ok=True)
 for a in articles:
     slug = a.get("slug") or re.sub(r"[^a-z0-9-]+", "-", a.get("title","").lower()).strip("-")
-    body = markdown_to_html(a.get("body",""))
+    body = markdown_to_html(a.get("body",""), a.get('galleries') or [])
     featured = ""
     if a.get("featured_image"):
         featured = '<figure class="hero-image"><img src="' + esc(a["featured_image"]) + '" alt="' + esc(a.get("title","")) + '" fetchpriority="high"></figure>'
-    content = '<div class="wrap page-head"><div class="eyebrow">' + esc(a.get("category","")) + ' · ' + esc(a.get("date","")) + '</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(a.get("title","")) + '</h1>' + render_deezer(a) + render_strava(a) + featured + body + render_galleries(a.get('galleries', [])) + render_instagram(a) + '</article></div>'
+    content = '<div class="wrap page-head"><div class="eyebrow">' + esc(a.get("category","")) + ' · ' + esc(a.get("date","")) + '</div></div><div class="wrap content-shell"><article class="article"><h1>' + esc(a.get("title","")) + '</h1>' + render_deezer(a) + render_strava(a) + featured + body + render_instagram(a) + '</article></div>'
     seo_desc = a.get("seo_description") or a.get("summary","") or clean_text(a.get("body",""))
     (ROOT/"articles"/f"{slug}.html").write_text(shell(a.get("title","Article"), content, seo_desc, path=f"/articles/{slug}.html", image=a.get("featured_image", ""), kind="Article", date=a.get("date", ""), seo_title=a.get("seo_title", "")), encoding="utf-8")
 
@@ -397,9 +417,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.9</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.0</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.0.9</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.0</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -442,7 +462,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.0.9<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.0<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -464,7 +484,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.0.9<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.0<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -490,7 +510,7 @@ for page in ROOT.rglob('*.html'):
     updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
     if GA_ANALYTICS not in updated:
         updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.0.9', updated)
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.0', updated)
     if '/pages/versions.html' not in updated:
         updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.0.8 · Historique des modifications</a></div></footer>')
     else:

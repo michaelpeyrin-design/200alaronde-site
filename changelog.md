@@ -1,5 +1,12 @@
 # Historique des modifications
 
+## v5.1.0 — 23 novembre 2026
+
+- Nouveau bloc « Photo réglable » dans l'éditeur d'articles : choix de largeur 600, 800, 1200, 1600 px ou 100 %, y compris pour une photo déjà enregistrée.
+- Nouveau bloc « Galerie à cet endroit » : permet de placer chaque mosaïque ou carrousel n'importe où dans le contenu de l'article en utilisant son numéro.
+- Compatibilité avec les articles existants : les galeries non placées explicitement restent à la fin de l'article.
+- Le réglage de largeur concerne l'affichage ; seule la compression à l'envoi réduit le poids réel du fichier.
+
 ## v5.0.9 — 23 novembre 2026
 
 - Compression automatique des nouvelles images JPEG, PNG et WebP chargées dans l'administration : largeur de 1600 px, qualité 80 %, conversion WebP et suppression des métadonnées, sans recadrage.

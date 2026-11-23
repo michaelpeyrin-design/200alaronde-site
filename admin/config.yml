@@ -51,14 +51,17 @@ collections:
       - {label: "Image principale", name: "featured_image", widget: "image", required: false}
       - {label: "Publié", name: "published", widget: "boolean", default: true}
       - {label: "Afficher dans Archives", name: "show_in_archives", widget: "boolean", default: false, hint: "Activez uniquement pour les sorties à afficher dans la page Archives."}
-      - {label: "Contenu", name: "body", widget: "markdown"}
+      - label: "Contenu"
+        name: "body"
+        widget: "markdown"
+        hint: "Dans la barre d'outils, choisissez « Photo réglable » pour insérer une photo avec une largeur personnalisée, ou « Galerie à cet endroit » pour placer une mosaïque/un carrousel entre deux paragraphes."
       - label: "GALERIES PHOTOS — Mosaïque / Carrousel"
         name: "galleries"
         widget: "list"
         required: false
         minimize_collapsed: true
         summary: "{{fields.type}} — {{fields.title}}"
-        hint: "Ajoutez une ou plusieurs galeries. Choisissez Mosaïque ou Carrousel puis ajoutez les photos."
+        hint: "Ajoutez vos galeries ici dans l'ordre. Dans le Contenu, insérez « Galerie à cet endroit » et choisissez son numéro (1, 2, 3…). Une galerie sans emplacement défini est affichée à la fin de l'article, comme avant."
         fields:
           - label: "Présentation"
             name: "type"

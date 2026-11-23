@@ -17,12 +17,12 @@ def render_galleries(galleries):
         title=esc(g.get('title',''))
         title_html=f'<h2 class="gallery-title">{title}</h2>' if title else ''
         if g.get('type') == 'carousel':
-            figs=''.join('<figure><img src="'+esc(i.get('src',''))+'" alt="'+esc(i.get('caption',''))+'" loading="lazy">'+(('<figcaption>'+esc(i.get('caption',''))+'</figcaption>') if i.get('caption') else '')+'</figure>' for i in imgs)
+            figs=''.join('<figure><img src="'+esc(i.get('src',''))+'" alt="'+esc(i.get('caption',''))+'" loading="lazy" decoding="async">'+(('<figcaption>'+esc(i.get('caption',''))+'</figcaption>') if i.get('caption') else '')+'</figure>' for i in imgs)
             out.append(title_html+'<div class="article-gallery-carousel"><button class="gallery-prev" type="button" aria-label="Photo précédente">‹</button><div class="gallery-track">'+figs+'</div><button class="gallery-next" type="button" aria-label="Photo suivante">›</button></div>')
         else:
             cols=str(g.get('columns','3'))
             if cols not in ('2','3','4'): cols='3'
-            figs=''.join('<figure><img src="'+esc(i.get('src',''))+'" alt="'+esc(i.get('caption',''))+'" loading="lazy">'+(('<figcaption>'+esc(i.get('caption',''))+'</figcaption>') if i.get('caption') else '')+'</figure>' for i in imgs)
+            figs=''.join('<figure><img src="'+esc(i.get('src',''))+'" alt="'+esc(i.get('caption',''))+'" loading="lazy" decoding="async">'+(('<figcaption>'+esc(i.get('caption',''))+'</figcaption>') if i.get('caption') else '')+'</figure>' for i in imgs)
             out.append(title_html+'<div class="article-gallery-mosaic cols-'+cols+'">'+figs+'</div>')
     return ''.join(out)
 
@@ -251,10 +251,10 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<meta property="og:url" content="' + esc(canonical) + '"><meta property="og:image" content="' + esc(og_image) + '">'
         '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + esc(full_title) + '">'
         '<meta name="twitter:description" content="' + esc(description) + '"><meta name="twitter:image" content="' + esc(og_image) + '">'
-        '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8">' + jsonld_script(data)
+        '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8"><link rel="stylesheet" href="/assets/css/gallery-responsive.css?v=5.1.4">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.3</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.4</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -430,9 +430,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.3</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.4</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.3</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.4</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -475,7 +475,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.3<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.4<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -497,7 +497,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.3<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.4<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -523,7 +523,7 @@ for page in ROOT.rglob('*.html'):
     updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
     if GA_ANALYTICS not in updated:
         updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.3', updated)
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.4', updated)
     if '/pages/versions.html' not in updated:
         updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.0.8 · Historique des modifications</a></div></footer>')
     else:

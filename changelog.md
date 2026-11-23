@@ -1,5 +1,12 @@
 # Historique des modifications
 
+## v5.1.4 — 23 novembre 2026
+
+- Mosaïques adaptées aux photographies portrait : affichage à la hauteur naturelle sans recadrage, y compris pour les photos paysage.
+- Responsive : 2 colonnes sur iPhone et petits écrans, 3 sur tablette et 4 sur ordinateur ; espacement ajusté.
+- Images chargées progressivement avec décodage asynchrone et débordements limités sur mobile.
+- Conservation des marqueurs de placement `[[galerie:N]]` dans le texte des articles.
+
 ## v5.1.3 — 23 novembre 2026
 
 - Correction du placement des galeries dans les articles contenant du HTML mélangé au Markdown, notamment les blocs « Photo réglable » : les marqueurs `[[galerie:N]]` sont désormais interprétés dans les deux cas.

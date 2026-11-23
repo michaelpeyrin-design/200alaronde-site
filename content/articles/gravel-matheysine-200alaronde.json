@@ -58,7 +58,7 @@
       "title": "Lacs Matheysins - Crédit photos : Elise Caron"
     },
     {
-      "type": "mosaic",
+      "type": "carousel",
       "columns": "3",
       "images": [
         {
@@ -105,7 +105,7 @@
       "title": "Canal du Beaumont"
     },
     {
-      "type": "mosaic",
+      "type": "carousel",
       "columns": "3",
       "title": "Les corniches du Drac",
       "images": [

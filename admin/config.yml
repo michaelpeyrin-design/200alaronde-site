@@ -22,6 +22,19 @@ media_processing:
   height: null
 
 collections:
+  - name: "categories"
+    label: "Catégories"
+    label_singular: "Catégorie"
+    folder: "content/categories"
+    create: true
+    format: "json"
+    extension: "json"
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}}"
+    fields:
+      - {label: "Nom de la catégorie", name: "title", widget: "string", hint: "Exemple : Gravel, Matériel, Aventure. Enregistrez la nouvelle catégorie avant de la choisir dans un article."}
+
   - name: "articles"
     label: "Articles"
     label_singular: "Article"
@@ -38,8 +51,12 @@ collections:
       - {label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
       - label: "Catégorie"
         name: "category"
-        widget: "select"
-        options: ["Dodecaudax", "BRM", "Longue distance", "Artisan cadreur", "Lecture", "Association"]
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        value_field: "title"
+        hint: "Pour ajouter un choix, ouvrez « Catégories » dans le menu d'administration, créez une catégorie puis revenez ici."
       - {label: "Résumé", name: "summary", widget: "text", required: false}
       - {label: "Titre SEO (Google)", name: "seo_title", widget: "string", required: false, hint: "Facultatif. Laissez vide pour utiliser automatiquement le titre de l’article."}
       - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false, hint: "Facultatif. Environ 140 à 160 caractères. Laissez vide pour utiliser le résumé."}

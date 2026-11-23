@@ -9,6 +9,18 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 logo_url: "/assets/img/logo-200alaronde.png"
 
+# Compresse les nouvelles photos avant leur enregistrement sur GitHub.
+# Les proportions d'origine sont conservées (aucun recadrage).
+media_processing:
+  enabled: true
+  format:
+    enabled: true
+    default: webp
+  quality: 80
+  strip_metadata: true
+  width: 1600
+  height: null
+
 collections:
   - name: "articles"
     label: "Articles"

@@ -33,7 +33,7 @@
       "title": "Belvédère Olivier Messiaen"
     },
     {
-      "type": "carousel",
+      "type": "mosaic",
       "columns": "2",
       "images": [
         {
@@ -58,7 +58,7 @@
       "title": "Lacs Matheysins - Crédit photos : Elise Caron"
     },
     {
-      "type": "carousel",
+      "type": "mosaic",
       "columns": "3",
       "images": [
         {
@@ -83,7 +83,7 @@
       "title": "Saint Honoré"
     },
     {
-      "type": "carousel",
+      "type": "mosaic",
       "columns": "3",
       "images": [
         {
@@ -105,7 +105,7 @@
       "title": "Canal du Beaumont"
     },
     {
-      "type": "carousel",
+      "type": "mosaic",
       "columns": "3",
       "title": "Les corniches du Drac",
       "images": [

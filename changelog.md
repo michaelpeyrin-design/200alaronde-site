@@ -1,5 +1,11 @@
 # Historique des modifications
 
+## v5.1.1 — 23 novembre 2026
+
+- Nouvelle rubrique « Catégories » dans l'administration : création et modification des catégories d'articles sans intervenir dans le code.
+- Le champ Catégorie des articles propose désormais les catégories enregistrées, avec recherche.
+- Reprise des catégories existantes, y compris les anciennes valeurs « Article » et « Groupe What's App », pour conserver la compatibilité avec les articles publiés.
+
 ## v5.1.0 — 23 novembre 2026
 
 - Nouveau bloc « Photo réglable » dans l'éditeur d'articles : choix de largeur 600, 800, 1200, 1600 px ou 100 %, y compris pour une photo déjà enregistrée.

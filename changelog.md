@@ -1,5 +1,13 @@
 # Historique des modifications
 
+## v5.1.6 — 25 novembre 2026
+
+- Navigation sur une ligne avec un onglet Applications bleu foncé.
+- Page Applications présentant Cols & Dodecaudax, Brevets, Bon braquet et Roadbook avec descriptions et liens.
+- Les copains : cartes par ordre alphabétique, sans dates ni regroupement par année ou mois, avec le lien « En savoir plus ».
+- Calendrier gravel renommé Gravel.
+- Bouton d’accueil : Application Cols & Dodecaudax.
+
 ## v5.1.5 — 25 novembre 2026
 
 - Accueil : le bouton Classement Dodecaudax devient Application Cols et challenges Dodecaudax.

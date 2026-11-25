@@ -1,5 +1,11 @@
 # Historique des modifications
 
+## v5.1.7 — 25 novembre 2026
+
+- Les copains : uniquement les catégories Magasin et Artisan.
+- Sous-titre : « les rencontres de 200àlaronde ».
+- Onglet Applications : bleu clair et texte foncé, sur ordinateur et mobile.
+
 ## v5.1.6 — 25 novembre 2026
 
 - Navigation sur une ligne avec un onglet Applications bleu foncé.

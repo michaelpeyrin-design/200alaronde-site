@@ -1,5 +1,15 @@
 # Historique des modifications
 
+## v5.1.10 — 25 novembre 2026
+
+- Boutons « Ouvrir l’application » turquoise clair (#78e8f2), avec texte foncé, comme les boutons principaux du site.
+- Correctif cumulatif depuis v5.1.8 : retrait de l’historique public et conservation du fichier de suivi dans le dépôt.
+
+## v5.1.9 — 25 novembre 2026
+
+- Historique conservé dans le dépôt, sans page ni lien public.
+- Accès public à la page versions et aux fichiers changelog bloqué sur Netlify.
+
 ## v5.1.8 — 25 novembre 2026
 
 - Menu Applications : suppression du fond, de la bordure et de la surbrillance ; texte légèrement plus foncé, sur ordinateur et mobile.

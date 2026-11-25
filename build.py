@@ -259,7 +259,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8"><link rel="stylesheet" href="/assets/css/gallery-responsive.css?v=5.1.4">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.7</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.8</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -448,9 +448,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.7</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.8</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.7</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.8</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -493,7 +493,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.7<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.8<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -515,7 +515,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.7<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.8<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -546,14 +546,14 @@ for page in ROOT.rglob('*.html'):
     if page == ROOT / 'index.html':
         updated = updated.replace('Classement Dodecaudax', 'Application Cols &amp; Dodecaudax').replace('Application Cols et challenges Dodecaudax', 'Application Cols &amp; Dodecaudax')
     updated = re.sub(r'<header\b[^>]*>.*?</header>', lambda match: header(), updated, flags=re.S)
-    updated = re.sub(r'/assets/css/navigation-apps\.css\?v=[0-9.]+', '/assets/css/navigation-apps.css?v=5.1.7', updated)
+    updated = re.sub(r'/assets/css/navigation-apps\.css\?v=[0-9.]+', '/assets/css/navigation-apps.css?v=5.1.8', updated)
     if '/assets/css/navigation-apps.css' not in updated:
         updated = updated.replace('</head>', '<link rel="stylesheet" href="/assets/css/navigation-apps.css?v=5.1.5"></head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.7', updated)
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.8', updated)
     if '/pages/versions.html' not in updated:
-        updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.1.7 · Historique des modifications</a></div></footer>')
+        updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.1.8 · Historique des modifications</a></div></footer>')
     else:
-        updated = re.sub(r'Version [0-9.]+ · Historique des modifications', 'Version 5.1.7 · Historique des modifications', updated)
+        updated = re.sub(r'Version [0-9.]+ · Historique des modifications', 'Version 5.1.8 · Historique des modifications', updated)
     if updated != markup:
         page.write_text(updated, encoding='utf-8')
 

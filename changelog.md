@@ -1,5 +1,9 @@
 # Historique des modifications
 
+## v5.1.8 — 25 novembre 2026
+
+- Menu Applications : suppression du fond, de la bordure et de la surbrillance ; texte légèrement plus foncé, sur ordinateur et mobile.
+
 ## v5.1.7 — 25 novembre 2026
 
 - Les copains : uniquement les catégories Magasin et Artisan.

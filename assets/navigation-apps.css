@@ -1,0 +1,39 @@
+/* Navigation et applications de l’association. */
+header nav{flex-wrap:nowrap;gap:18px}
+header .brand{flex-shrink:0}
+header .navlinks{flex-wrap:nowrap;gap:14px;width:auto;align-items:center}
+header .navlinks>a,header .apps-menu>summary{white-space:nowrap;font-size:13px}
+header .apps-menu{position:relative}
+header .apps-menu>summary{list-style:none;cursor:pointer;font-weight:800;padding:10px 13px;border-radius:9px;background:#173d65!important;color:#fff!important;display:flex;align-items:center;gap:10px}
+header .apps-menu>summary::-webkit-details-marker{display:none}
+header .apps-menu[open]>summary{background:#0d2a49!important}
+header .apps-panel{position:absolute;right:0;top:calc(100% + 10px);width:260px;padding:14px;display:grid;gap:8px;background:#fff;border:1px solid #dce5ed;border-radius:14px;box-shadow:0 14px 35px #102b4926;z-index:60}
+header .apps-caption{display:block;font-size:11px;font-weight:800;letter-spacing:.04em;line-height:1.5;color:#52677d!important;padding:2px 2px 7px}
+header a.association-app,
+html:not([data-theme="dark"]) body.gravel-page header a.association-app{background:#173d65!important;color:#fff!important;border-radius:8px;padding:11px 12px;display:flex;text-decoration:none;font-size:14px;font-weight:800}
+header a.association-app:hover,header a.association-app:focus-visible{background:#0d2a49!important;color:#fff!important}
+header .apps-menu>summary:focus-visible,header a.association-app:focus-visible{outline:2px solid #70aeda;outline-offset:3px}
+header .mobile-apps{display:grid;gap:7px;padding:12px 0;margin:4px 0;border-top:1px solid #dce5ed;border-bottom:1px solid #dce5ed}
+@media(min-width:761px) and (max-width:1150px){header .brand span{display:none}header .navlinks{gap:12px}}
+@media(max-width:950px){header .navlinks{display:none!important}header .mobile-nav{display:block;margin-left:auto;position:relative}header .mobile-nav>summary{list-style:none;width:46px;height:46px;display:flex;align-items:center;justify-content:center;border:1px solid #dce5ed;border-radius:12px;background:#fff;color:#173d65;font-size:25px;cursor:pointer}header .mobile-nav>summary::-webkit-details-marker{display:none}header .mobile-navlinks{position:absolute;right:0;top:54px;width:min(86vw,330px);max-height:calc(100dvh - 100px);overflow-y:auto;box-sizing:border-box;padding:12px;background:#fff;border:1px solid #dce5ed;border-radius:14px;box-shadow:0 14px 35px #102b4926;display:grid;gap:6px}header .mobile-navlinks>a{display:block;padding:12px 13px;text-decoration:none;color:#173d65!important;font-weight:800}}
+
+.applications-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:28px 0 48px}
+.application-card{padding:28px;border:1px solid #dce5ed;border-radius:18px;background:#fff;box-shadow:0 8px 28px #173d6509;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.application-card .app-number{font-size:12px;font-weight:900;letter-spacing:.1em;color:#527390}
+.application-card h2{font-size:26px;line-height:1.2;margin:0;color:#173d65}
+.application-card p{margin:0;line-height:1.7;color:#405568;flex:1}
+.application-card .app-open{display:inline-flex;margin-top:8px;padding:12px 17px;border-radius:9px;background:#173d65;color:#fff!important;text-decoration:none;font-weight:800}
+.application-card .app-open:hover{background:#0d2a49}
+@media(max-width:650px){.applications-grid{grid-template-columns:1fr;gap:16px}.application-card{padding:22px}}
+
+/* Accès Applications : bleu clair et texte foncé, lisibles au repos. */
+html body header .navlinks a.apps-hub-link,
+html body header .mobile-navlinks a.apps-hub-link,
+html:not([data-theme="dark"]) body.gravel-page header a.apps-hub-link{
+ background:#cde8fa!important;color:#123b5d!important;border:1px solid #90bedf;
+}
+html body header .navlinks a.apps-hub-link:hover,
+html body header .mobile-navlinks a.apps-hub-link:hover,
+html:not([data-theme="dark"]) body.gravel-page header a.apps-hub-link:hover{
+ background:#acd5f1!important;color:#123b5d!important;
+}

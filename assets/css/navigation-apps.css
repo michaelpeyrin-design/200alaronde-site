@@ -22,8 +22,8 @@ header .mobile-apps{display:grid;gap:7px;padding:12px 0;margin:4px 0;border-top:
 .application-card .app-number{font-size:12px;font-weight:900;letter-spacing:.1em;color:#527390}
 .application-card h2{font-size:26px;line-height:1.2;margin:0;color:#173d65}
 .application-card p{margin:0;line-height:1.7;color:#405568;flex:1}
-.application-card .app-open{display:inline-flex;margin-top:8px;padding:12px 17px;border-radius:9px;background:#173d65;color:#fff!important;text-decoration:none;font-weight:800}
-.application-card .app-open:hover{background:#0d2a49}
+.application-card .app-open{display:inline-flex;margin-top:8px;padding:12px 17px;border-radius:9px;background:#78e8f2;color:#062230!important;text-decoration:none;font-weight:800}
+.application-card .app-open:hover{background:#5edce8;color:#062230!important}
 @media(max-width:650px){.applications-grid{grid-template-columns:1fr;gap:16px}.application-card{padding:22px}}
 
 /* Applications : lien discret sans fond, comme les autres entrées. */

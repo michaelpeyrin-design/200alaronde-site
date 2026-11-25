@@ -1,5 +1,13 @@
 # Historique des modifications
 
+## v5.1.5 — 25 novembre 2026
+
+- Accueil : le bouton Classement Dodecaudax devient Application Cols et challenges Dodecaudax.
+
+- Ajout du lien Bon braquet vers lebonbraquet.200alaronde.fr dans les menus ordinateur et mobile.
+- Nouvelle page Les copains, au format Archives, filtrée sur Magazine article (ou Article magazine), Magasin et Artisan, indépendamment de la sélection Archives.
+- Mise en valeur des applications Bon braquet, Brevets et Dodecaudax en bleu foncé avec texte blanc, y compris dans le menu mobile et la section gravel.
+
 ## v5.1.4 — 23 novembre 2026
 
 - Mosaïques adaptées aux photographies portrait : affichage à la hauteur naturelle sans recadrage, y compris pour les photos paysage.

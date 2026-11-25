@@ -206,7 +206,7 @@ def markdown_to_html(text, galleries=None):
     return finish("\n".join(out))
 
 def header():
-    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/documents.html">Documents</a><a href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
+    return '<header><div class="wrap"><nav><a class="brand" href="/"><img src="/assets/img/logo-200alaronde-round.png" alt="Logo 200 à la ronde"><span>200 À LA RONDE</span></a><div class="navlinks"><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/les-copains.html">Les copains</a><a href="/pages/documents.html">Documents</a><a class="association-app" href="https://lebonbraquet.200alaronde.fr/" target="_blank" rel="noopener">Bon braquet</a><a class="association-app" href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a class="association-app" href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div><details class="mobile-nav"><summary aria-label="Ouvrir le menu">☰</summary><div class="mobile-navlinks"><a class="association-app" href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Dodecaudax</a><a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Calendrier gravel</a><a href="/sorties.html">Archives</a><a href="/pages/les-copains.html">Les copains</a><a href="/pages/documents.html">Documents</a><a class="association-app" href="https://lebonbraquet.200alaronde.fr/" target="_blank" rel="noopener">Bon braquet</a><a class="association-app" href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a></div></details></nav></div></header>'
 
 def clean_text(s):
     s = re.sub(r'<[^>]+>', ' ', str(s or ''))
@@ -254,7 +254,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8"><link rel="stylesheet" href="/assets/css/gallery-responsive.css?v=5.1.4">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.4</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.5</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -393,6 +393,33 @@ for y in years:
 
 sorties = '<div class="wrap page-head"><div class="eyebrow">Archives</div><h1>Archives des sorties de l\'association</h1><p class="lead">Récits des sorties de 200 à la ronde, classées par année et par mois</p>' + year_nav + '</div><div class="wrap archives-shell">' + ''.join(year_sections) + '</div>'
 (ROOT/"sorties.html").write_text(shell("Les sorties", sorties, "Archives des sorties longue distance, Dodecaudax et BRM de 200 à la ronde, classées par année et par mois.", path="/sorties.html"), encoding="utf-8")
+groups = {}
+for a in articles:
+    # Archives : uniquement les articles explicitement sélectionnés dans l’administration.
+    if str(a.get("category", "")).strip().casefold() not in {"magazine article", "article magazine", "magasin", "artisan"}:
+        continue
+    try:
+        y,m,_ = [int(x) for x in a.get("date","").split("-")[:3]]
+    except Exception:
+        continue
+    groups.setdefault(y, {}).setdefault(m, []).append(a)
+
+years = sorted(groups, reverse=True)
+year_nav = '<div class="archive-year-nav">' + ''.join('<a href="#annee-' + str(y) + '">' + str(y) + '</a>' for y in years) + '</div>'
+year_sections = []
+for y in years:
+    months = []
+    year_count = sum(len(v) for v in groups[y].values())
+    for m in sorted(groups[y], reverse=True):
+        items = groups[y][m]
+        label = 'publication' if len(items)==1 else 'publications'
+        months.append('<section class="archive-month-section"><div class="archive-month-head"><h3>' + MONTHS_FR[m] + '</h3><span>' + str(len(items)) + ' ' + label + '</span></div><div class="archive-cards">' + ''.join(_archive_card(a) for a in items) + '</div></section>')
+    label = 'publication' if year_count==1 else 'publications'
+    year_sections.append('<section class="archive-year" id="annee-' + str(y) + '"><div class="archive-year-head"><h2>' + str(y) + '</h2><span>' + str(year_count) + ' ' + label + '</span></div>' + ''.join(months) + '</section>')
+
+sorties = '<div class="wrap page-head"><div class="eyebrow">Les copains</div><h1>Les copains</h1><p class="lead">Magazines, magasins et artisans : les rencontres de 200 à la ronde</p>' + year_nav + '</div><div class="wrap archives-shell">' + (''.join(year_sections) or '<p>Aucun article dans ces catégories pour le moment.</p>') + '</div>'
+(ROOT/"pages"/"les-copains.html").write_text(shell("Les copains", sorties, "Les articles de 200 à la ronde consacrés aux magazines, magasins et artisans.", path="/pages/les-copains.html"), encoding="utf-8")
+
 print("Site généré :", len(articles), "articles")
 
 
@@ -430,9 +457,9 @@ if home_path.exists():
     )
     if '<!-- HOME_ARTICLES_START -->' in home:
         home = re.sub(r'<!-- HOME_ARTICLES_START -->.*?<!-- HOME_ARTICLES_END -->', block, home, count=1, flags=re.S)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.4</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.5</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
-    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.4</div>', home, count=1)
+    home = re.sub(r'<div class="site-version">v[^<]+</div>', '<div class="site-version">v5.1.5</div>', home, count=1)
     home = re.sub(r'/assets/css/site\.css\?v=[^"\']+', '/assets/css/site.css?v=5.0.8', home, count=1)
     home = home.replace('https://roadbook.200alaronde.fr/', 'https://brevets.200alaronde.fr/').replace('>Roadbook</a>', '>Brevets</a>')
     home_path.write_text(home, encoding="utf-8")
@@ -443,7 +470,7 @@ if home_path.exists():
 
 # --- V3.7.13 : SEO technique + Cloudflare Web Analytics ---
 def _published_routes():
-    routes = [("/", "1.0"), ("/sorties.html", "0.8")]
+    routes = [("/", "1.0"), ("/sorties.html", "0.8"), ("/pages/les-copains.html", "0.8")]
     for p in load_jsons(ROOT/"content"/"pages"):
         slug = p.get("slug") or "page"
         routes.append((f"/pages/{slug}.html", "0.8"))
@@ -475,7 +502,7 @@ def _patch_home_seo():
     p = ROOT/"index.html"
     if not p.exists(): return
     h = p.read_text(encoding="utf-8")
-    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.4<')
+    h = h.replace('site.css?v=3.8.1', 'site.css?v=4.0.0').replace('site.css?v=3.8.2', 'site.css?v=4.0.0').replace('>v3.8.6<', '>v5.1.5<')
     h = re.sub(r'<link rel="canonical"[^>]*>', '', h)
     h = re.sub(r'<meta property="og:[^"]+"[^>]*>', '', h)
     h = re.sub(r'<meta name="twitter:[^"]+"[^>]*>', '', h)
@@ -497,7 +524,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.4<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.5<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -510,7 +537,9 @@ _write_sitemap()
 _write_robots()
 
 # Public release history, generated from the versioned Markdown log.
-release_log = ROOT / 'CHANGELOG.md'
+release_log = ROOT / 'changelog.md'
+if not release_log.exists():
+    release_log = ROOT / 'CHANGELOG.md'
 if release_log.exists():
     release_body = '<div class="wrap content-shell"><article class="article">' + markdown_to_html(release_log.read_text(encoding='utf-8')) + '</article></div>'
     (ROOT / 'pages' / 'versions.html').write_text(shell('Historique des versions', release_body, path='/pages/versions.html'), encoding='utf-8')
@@ -523,11 +552,16 @@ for page in ROOT.rglob('*.html'):
     updated = markup.replace('>À venir</a>', '>Calendrier route</a>').replace('>Gravel</a>', '>Calendrier gravel</a>')
     if GA_ANALYTICS not in updated:
         updated = updated.replace('</head>', GA_ANALYTICS + '</head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.4', updated)
+    if page == ROOT / 'index.html':
+        updated = updated.replace('Classement Dodecaudax', 'Application Cols et challenges Dodecaudax')
+    updated = re.sub(r'<header\b[^>]*>.*?</header>', lambda match: header(), updated, flags=re.S)
+    if '/assets/css/navigation-apps.css' not in updated:
+        updated = updated.replace('</head>', '<link rel="stylesheet" href="/assets/css/navigation-apps.css?v=5.1.5"></head>')
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.5', updated)
     if '/pages/versions.html' not in updated:
-        updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.0.8 · Historique des modifications</a></div></footer>')
+        updated = updated.replace('</footer>', '<div class="wrap"><a href="/pages/versions.html">Version 5.1.5 · Historique des modifications</a></div></footer>')
     else:
-        updated = re.sub(r'Version [0-9.]+ · Historique des modifications', 'Version 5.0.8 · Historique des modifications', updated)
+        updated = re.sub(r'Version [0-9.]+ · Historique des modifications', 'Version 5.1.5 · Historique des modifications', updated)
     if updated != markup:
         page.write_text(updated, encoding='utf-8')
 

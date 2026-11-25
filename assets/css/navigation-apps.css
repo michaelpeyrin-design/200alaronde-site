@@ -1,0 +1,13 @@
+/* Applications créées par l’association, y compris sur les pages gravel. */
+header .navlinks a.association-app,
+header .mobile-navlinks a.association-app,
+html:not([data-theme="dark"]) body.gravel-page header a.association-app {
+  background:#173d65!important;color:#fff!important;border-radius:8px;
+  padding:9px 12px;display:inline-flex;align-items:center;text-decoration:none;
+}
+header a.association-app:hover,header a.association-app:focus-visible {
+  background:#0d2a49!important;color:#fff!important;
+  outline:2px solid #83bce7;outline-offset:2px;
+}
+header .navlinks{column-gap:12px;row-gap:10px;padding-block:10px}
+header .mobile-navlinks a.association-app{display:flex;margin:4px 0}

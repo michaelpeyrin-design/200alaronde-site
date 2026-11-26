@@ -164,6 +164,24 @@ collections:
           - {label: "Description SEO (Google)", name: "seo_description", widget: "text", required: false}
           - {label: "Ancien contenu", name: "body", widget: "hidden", required: false}
 
+  - name: "boutique"
+    label: "Boutique"
+    label_singular: "Produit"
+    folder: "content/boutique"
+    create: true
+    format: "json"
+    extension: "json"
+    slug: "{{slug}}"
+    identifier_field: "title"
+    fields:
+      - {label: "Nom du produit", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Statut", name: "status", widget: "string", required: false, default: "Précommande en cours"}
+      - {label: "Prix affiché", name: "price", widget: "string", required: false, hint: "Laisser vide si le prix est indiqué uniquement sur AssoConnect"}
+      - {label: "Photo du produit", name: "image", widget: "image", required: false}
+      - {label: "Lien AssoConnect", name: "url", widget: "string"}
+      - {label: "Vente active", name: "active", widget: "boolean", default: true}
+
   - name: "pages"
     label: "Pages"
     label_singular: "Page"

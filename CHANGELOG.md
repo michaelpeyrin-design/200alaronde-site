@@ -1,5 +1,12 @@
 # Historique des modifications
 
+## v5.1.11 — 26 novembre 2026
+
+- Ajout de l'onglet « Boutique » au menu ordinateur et mobile.
+- Nouvelle page Boutique avec précommande des bouchons de valves et bouton turquoise vers AssoConnect.
+- Gestion des produits depuis l'administration : description, image, prix facultatif, statut, lien et activation.
+- Ajout de Boutique au sitemap ; conservation du masquage public de l'historique.
+
 ## v5.0.8 — 19 octobre 2026
 
 - Ajout du champ facultatif « Informations sur la sortie » pour chaque mois des calendriers route et gravel dans l’administration. Le texte apparaît avant le bouton Inscription ; un champ vide reste masqué.

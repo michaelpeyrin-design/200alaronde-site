@@ -206,7 +206,7 @@ def markdown_to_html(text, galleries=None):
     return finish("\n".join(out))
 
 def header():
-    links = '<a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/les-copains.html">Les copains</a><a href="/pages/documents.html">Documents</a>'
+    links = '<a href="/pages/nos-sorties.html">Calendrier route</a><a href="/pages/gravel.html">Gravel</a><a href="/sorties.html">Archives</a><a href="/pages/les-copains.html">Les copains</a><a href="/pages/boutique.html">Boutique</a><a href="/pages/documents.html">Documents</a>'
     apps = '<a class="association-app" href="https://dodecaudax.200alaronde.fr/" target="_blank" rel="noopener">Cols &amp; Dodecaudax</a><a class="association-app" href="https://brevets.200alaronde.fr/" target="_blank" rel="noopener">Brevets</a><a class="association-app" href="https://lebonbraquet.200alaronde.fr/" target="_blank" rel="noopener">Bon braquet</a>'
     contact = '<a href="https://chat.whatsapp.com/LlSf99E2niNATpJlFxNskL" target="_blank" rel="noopener">WhatsApp</a><a href="/pages/contact.html">Contact</a>'
     desktop_apps = '<a class="association-app apps-hub-link" href="/pages/applications.html">Applications</a>'
@@ -259,7 +259,7 @@ def shell(title, content, desc="", path="/", image="", kind="WebPage", date="", 
         '<link rel="stylesheet" href="/assets/css/site.css?v=5.0.8"><link rel="stylesheet" href="/assets/css/gallery-responsive.css?v=5.1.4">' + jsonld_script(data)
     )
     body_class = ' class="gravel-page"' if path == '/pages/gravel.html' else ''
-    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.10</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
+    return '<!doctype html><html lang="fr"><head>' + head + '</head><body' + body_class + '><div class="site-version">v5.1.11</div>' + header() + '<main>' + content + '</main><footer><div class="wrap">200 à la ronde · Grenoble · Cyclisme longue distance</div></footer>' + CAROUSEL_JS + CF_ANALYTICS + GA_ANALYTICS + '</body></html>'
 
 articles = load_jsons(ROOT/"content"/"articles")
 articles.sort(key=lambda x: x.get("date",""), reverse=True)
@@ -346,6 +346,21 @@ for p in load_jsons(ROOT/"content"/"pages"):
     content='<div class="wrap page-head"><div class="eyebrow">200 à la ronde</div></div><div class="wrap content-shell"><article class="article"><h1>'+esc(p.get("title",""))+'</h1>'+rendered_body+'</article></div>'
     seo_desc=p.get("seo_description") or clean_text(p.get("intro","")) or clean_text(p.get("body",""))
     (ROOT/"pages"/f"{slug}.html").write_text(shell(p.get("title","Page"),content,seo_desc,path=f"/pages/{slug}.html",seo_title=p.get("seo_title","")),encoding="utf-8")
+
+# Boutique : chaque fiche est modifiable depuis l'administration.
+products = [p for p in load_jsons(ROOT/"content"/"boutique") if p.get("active", True)]
+products.sort(key=lambda p: p.get("title", "").casefold())
+product_cards = []
+for product in products:
+    image = product.get("image", "")
+    picture = '<img src="' + esc(image) + '" alt="' + esc(product.get("title", "")) + '" loading="lazy">' if image else ''
+    price = '<p class="shop-price">' + esc(product["price"]) + '</p>' if product.get("price") else ''
+    description = '<p>' + esc(product.get("description", "")) + '</p>'
+    url = product.get("url", "")
+    order = '<a class="btn primary" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Précommander sur AssoConnect</a>' if url.startswith("https://") else ''
+    product_cards.append('<article class="card shop-product">' + picture + '<div class="card-body"><div class="meta">' + esc(product.get("status", "")) + '</div><h2>' + esc(product.get("title", "")) + '</h2>' + description + price + order + '</div></article>')
+shop_body = '<div class="wrap page-head"><div class="eyebrow">200 à la ronde</div><h1>Boutique</h1><p class="lead">Les produits de l’association, à retrouver ici au fil des ventes et précommandes.</p></div><section class="wrap shop-grid">' + (''.join(product_cards) or '<p>Aucun produit disponible actuellement.</p>') + '</section>'
+(ROOT/"pages"/"boutique.html").write_text(shell("Boutique", shop_body, "Boutique de 200 à la ronde : produits et précommandes de l’association.", path="/pages/boutique.html"), encoding="utf-8")
 
 MONTHS_FR = {1:"Janvier",2:"Février",3:"Mars",4:"Avril",5:"Mai",6:"Juin",7:"Juillet",8:"Août",9:"Septembre",10:"Octobre",11:"Novembre",12:"Décembre"}
 
@@ -461,7 +476,7 @@ if home_path.exists():
 
 # --- V3.7.13 : SEO technique + Cloudflare Web Analytics ---
 def _published_routes():
-    routes = [("/", "1.0"), ("/sorties.html", "0.8"), ("/pages/les-copains.html", "0.8")]
+    routes = [("/", "1.0"), ("/sorties.html", "0.8"), ("/pages/les-copains.html", "0.8"), ("/pages/boutique.html", "0.8")]
     for p in load_jsons(ROOT/"content"/"pages"):
         slug = p.get("slug") or "page"
         if slug != "versions":
@@ -516,7 +531,7 @@ def _patch_home_seo():
 def _patch_404():
     p = ROOT/"404.html"
     if not p.exists(): return
-    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.10<')
+    h = p.read_text(encoding='utf-8').replace('site.css?v=3.8.1','site.css?v=4.0.0').replace('site.css?v=3.8.2','site.css?v=4.0.0').replace('>v3.8.6<','>v5.1.11<')
     if 'name="robots"' not in h:
         h = h.replace('</head>','<meta name="robots" content="noindex,follow"></head>')
     if 'static.cloudflareinsights.com/beacon.min.js' not in h:
@@ -552,7 +567,7 @@ for page in ROOT.rglob('*.html'):
     updated = re.sub(r'/assets/css/navigation-apps\.css\?v=[0-9.]+', '/assets/css/navigation-apps.css?v=5.1.10', updated)
     if '/assets/css/navigation-apps.css' not in updated:
         updated = updated.replace('</head>', '<link rel="stylesheet" href="/assets/css/navigation-apps.css?v=5.1.5"></head>')
-    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.10', updated)
+    updated = re.sub(r'(<div class="site-version">)v[^<]+', r'\g<1>v5.1.11', updated)
     updated = re.sub(r'<div class="wrap">\s*<a\b[^>]*href=["\']/pages/versions(?:\.html)?["\'][^>]*>.*?</a>\s*</div>', '', updated, flags=re.S)
     updated = re.sub(r'<a\b[^>]*href=["\']/pages/versions(?:\.html)?["\'][^>]*>.*?</a>', '', updated, flags=re.S)
     if updated != markup:
